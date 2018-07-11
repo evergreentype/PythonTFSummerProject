@@ -1,3 +1,4 @@
+# Part 1, 3
 # 2+2
 print(2+2)
 
@@ -26,3 +27,15 @@ print(letters)
 # Emptry stirng is false
 while '':
     print("while true")
+
+# Part 4
+# Does the in keyword work with numbers, instead of vars
+if 1 in [1,2,3]:
+    print("1 is in 1,2,3")
+
+# Testing Documentation Strings
+def doc_str_test():
+    """This function serves the test of doc strings."""
+    pass
+
+print(doc_str_test.__doc__)
