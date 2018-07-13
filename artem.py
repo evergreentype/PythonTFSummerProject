@@ -41,5 +41,3 @@ def doc_str_test():
 print(doc_str_test.__doc__)
 
 
-# Part 5
-print(a)
