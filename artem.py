@@ -39,3 +39,7 @@ def doc_str_test():
     pass
 
 print(doc_str_test.__doc__)
+
+
+# Part 5
+print(a)
