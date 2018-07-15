@@ -69,6 +69,4 @@ print('{:-9} YES votes  {:2.2%}'.format(yes_votes, percentage))
 #----------------------------------------
 
 animals = 'eels'
-print('My hovercraft is full of {:animals}.'.format(animals))
-
-print('My hovercraft is full of {:animals !r}.'.format(animals))
+print('My hovercraft is full of {}.'.format(animals))
