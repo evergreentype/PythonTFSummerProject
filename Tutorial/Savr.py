@@ -30,7 +30,6 @@ print(v)
 #A module is a file containing Python definitions and statements.
 #Module can contain other module
 #
-import artem
 import sys
 print('------------------------------------------------------------------------------')
 #dir() is a function that explore to us all defined names
@@ -47,3 +46,17 @@ print(dir())
 #it will add all moudles that contains in __all__ of __init__ file
 #but it also is a bad practice, because it can bring more other problems
 #--------------------------------------
+
+
+#**Input & Output
+x='hello world'
+print(str(x))
+print(repr(x))
+
+#str() and repr() are functions for command promt
+#str() is showing human-readable information
+#repr() is showing for debagging
+import math
+table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 7678}
+for name, phone in table.items():
+	print(str(name) + ' ==> '+ str(phone))
