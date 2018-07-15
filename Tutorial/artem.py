@@ -1,9 +1,14 @@
+import artTest
+
 # Run the tests
-runTest = 7
+runTest = (1, 4, 5, 6, 7,)
 
 
 # Part 1, 3
+partNum = 1
 if 1 in runTest:
+    artTest.start_of_part_print(partNum)
+    
     # 2+2
     print(2+2)
 
@@ -19,7 +24,7 @@ if 1 in runTest:
     # name [5] = 'i'
 
     # Avoid the out of range error
-    print(name[5:])
+    print('range test: ' + name[5:])
 
     # Display the length of a string
     print(len(name))
@@ -33,9 +38,14 @@ if 1 in runTest:
     while '':
         print("while true")
 
+    artTest.end_of_part_print()
+
 
 # Part 4
-if 4 in runTest:
+partNum = 4
+if partNum in runTest:
+    artTest.start_of_part_print(partNum)
+    
     # Does the in keyword work with numbers, instead of vars
     if 1 in [1,2,3]:
         print("1 is in 1,2,3")
@@ -48,16 +58,22 @@ if 4 in runTest:
     # Printing a docstring
     print(doc_str_test.__doc__)
 
+    artTest.end_of_part_print()
+
 
 # Part 5
 # no code, sorry
-if 5 in runTest:
+partNum = 5
+if partNum in runTest:
     pass
 
 # Part 6
-if 6 in runTest:
+partNum = 6
+if partNum in runTest:
+    artTest.start_of_part_print(partNum)
+    
     # Add a module
-    import sys, artTest
+    # In the beggining of the module
 
     # Rename an imported module's function
     tpt = artTest.two_plus_two
@@ -66,11 +82,15 @@ if 6 in runTest:
     # List names of the imported module
     print(dir(artTest))
 
+    artTest.end_of_part_print()
+
 
 # Part 7
 # Testing string formatting
-if 7 in runTest:
-    partNum = 7
-    print(f'Part {partNum}')
+partNum = 7
+if partNum in runTest:
+    artTest.start_of_part_print(partNum)
     
     print('{} equals 2'.format(2))
+
+    artTest.end_of_part_print()
