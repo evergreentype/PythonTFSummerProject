@@ -4,5 +4,5 @@ def two_plus_two():
 def start_of_part_print(partNumber):
     print(f'### Part {partNumber}')
 
-def end_of_part_print():
-    print('###' + '\n')
+def end_of_part_print(partNumber):
+    print(f'### End of Part {partNumber}' + '\n')

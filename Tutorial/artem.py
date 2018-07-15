@@ -1,7 +1,7 @@
 import artTest
 
 # Run the tests
-runTest = (1, 4, 5, 6, 7,)
+runTest = (7,)
 
 
 # Part 1, 3
@@ -38,7 +38,7 @@ if 1 in runTest:
     while '':
         print("while true")
 
-    artTest.end_of_part_print()
+    artTest.end_of_part_print(partNum)
 
 
 # Part 4
@@ -58,7 +58,7 @@ if partNum in runTest:
     # Printing a docstring
     print(doc_str_test.__doc__)
 
-    artTest.end_of_part_print()
+    artTest.end_of_part_print(partNum)
 
 
 # Part 5
@@ -81,8 +81,9 @@ if partNum in runTest:
 
     # List names of the imported module
     print(dir(artTest))
-
-    artTest.end_of_part_print()
+    
+    
+    artTest.end_of_part_print(partNum)
 
 
 # Part 7
@@ -91,6 +92,18 @@ partNum = 7
 if partNum in runTest:
     artTest.start_of_part_print(partNum)
     
+    # Import sys objects
+    import sys
+    
     print('{} equals 2'.format(2))
+    
+    # Receive input using stdin
+    pr = sys.stdin.readline()
+    print(f'user input = {pr}')
+    
+    # Receive input using input()
+    prp = input('Enter your input, sir: ')
+    print(f'user input = {prp}')
+    
 
-    artTest.end_of_part_print()
+    artTest.end_of_part_print(partNum)
