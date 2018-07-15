@@ -69,4 +69,9 @@ print('{:-9} YES votes  {:2.2%}'.format(yes_votes, percentage))
 #----------------------------------------
 
 animals = 'eels'
-print('My hovercraft is full of {}.'.format(animals))
+people="peopls"
+print('My hovercraft is full of {:.2f} and {}.'.format(math.pi,people))
+
+
+year = 2016 ; event = 'Referendum'
+print(f'Results of the {year} {event}')
