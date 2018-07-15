@@ -1,5 +1,9 @@
+# Run the tests
+runTest = 7
+
+
 # Part 1, 3
-def part1_2_3_tests():
+if 1 in runTest:
     # 2+2
     print(2+2)
 
@@ -31,7 +35,7 @@ def part1_2_3_tests():
 
 
 # Part 4
-def part4_tests():
+if 4 in runTest:
     # Does the in keyword work with numbers, instead of vars
     if 1 in [1,2,3]:
         print("1 is in 1,2,3")
@@ -47,11 +51,11 @@ def part4_tests():
 
 # Part 5
 # no code, sorry
-def part5_tests():
+if 5 in runTest:
     pass
 
 # Part 6
-def part6_tests():
+if 6 in runTest:
     # Add a module
     import sys, artTest
 
@@ -65,16 +69,8 @@ def part6_tests():
 
 # Part 7
 # Testing string formatting
-def part7_tests():
+if 7 in runTest:
     partNum = 7
     print(f'Part {partNum}')
     
     print('{} equals 2'.format(2))
-
-
-# Run the tests
-# part1_2_3_tests()
-# part4_tests()
-# part5_tests()
-# part6_tests()
-part7_tests()
