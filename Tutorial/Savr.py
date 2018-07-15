@@ -60,3 +60,15 @@ import math
 table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 7678}
 for name, phone in table.items():
 	print(str(name) + ' ==> '+ str(phone))
+#we can use str() func for convert number type to str
+
+yes_votes = 42
+no_votes = 43
+percentage = (yes_votes/(yes_votes+no_votes))
+print('{:-9} YES votes  {:2.2%}'.format(yes_votes, percentage))
+#----------------------------------------
+
+animals = 'eels'
+print('My hovercraft is full of {:animals}.'.format(animals))
+
+print('My hovercraft is full of {:animals !r}.'.format(animals))
