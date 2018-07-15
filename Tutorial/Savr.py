@@ -75,3 +75,7 @@ print('My hovercraft is full of {:.2f} and {}.'.format(math.pi,people))
 
 year = 2016 ; event = 'Referendum'
 print(f'Results of the {year} {event}')
+
+
+#-----------------------------------------
+pr=input()
