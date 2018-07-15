@@ -24,7 +24,7 @@ letters[0] = 'bab'
 
 print(letters)
 
-# Emptry stirng is false
+# Emptry string is false
 while '':
     print("while true")
 
@@ -38,6 +38,7 @@ def doc_str_test():
     """This function serves the test of doc strings."""
     pass
 
+# Printing a docstring
 print(doc_str_test.__doc__)
 
 
@@ -45,11 +46,11 @@ print(doc_str_test.__doc__)
 # to be added...
 
 # Part 6
-# To add a module
+# Add a module
 import sys, artTest
 
 # Rename an imported module's function
-tpt = artTest.TpT
+tpt = artTest.two_plus_two
 tpt()
 
 # List names of the imported module
