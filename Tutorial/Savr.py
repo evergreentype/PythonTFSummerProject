@@ -79,3 +79,34 @@ print(f'Results of the {year} {event}')
 
 #-----------------------------------------
 pr=input()
+#-----------------------------------------
+#class ClassName:
+#	<statement-1>
+#	.
+#	.
+#	.
+#	<statement-n>
+#
+
+class Complex:
+    def __init__(self, realpart, imagpart):
+        self.r = realpart
+        self.i = imagpart
+
+x = Complex(3.0, -4.5)
+print(x.r)
+print(x.i)
+#Each value is an object, and therefore has a 
+#	class (also called its type). It is stored as object.__class__.
+
+#Often, the first argument of a method is called self. 
+#	This is nothing more than a convention: the name self has absolutely no special meaning to Python.
+
+#Data attributes override method attributes with the same name;
+
+#-=-----------------------------------------
+#there are += -+ *= /=
+xg=1
+xg%=1
+print (xg)
+#-=-----------------------------------------
