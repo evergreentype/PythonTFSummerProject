@@ -78,7 +78,7 @@ print(f'Results of the {year} {event}')
 
 
 #-----------------------------------------
-pr=input()
+#pr=input()
 #-----------------------------------------
 #class ClassName:
 #	<statement-1>
@@ -110,3 +110,16 @@ xg=1
 xg%=1
 print (xg)
 #-=-----------------------------------------
+
+
+class MainClassThatContainOtherClasses:
+	def multiply(self,x,y):
+		x=1
+		SubDC=SubCLass()
+
+		return x+SubDC.multiply()
+
+class SubClass(MainClassThatContainOtherClasses):
+	def multiply():
+		return 10
+#-------------------------------------------
