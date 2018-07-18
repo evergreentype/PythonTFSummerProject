@@ -1,7 +1,7 @@
 import artTest
 
 # Run the tests
-runTest = (8,)
+runTest = (9,)
 
 
 # Part 1, 3
@@ -67,6 +67,7 @@ partNum = 5
 if partNum in runTest:
     pass
 
+
 # Part 6
 partNum = 6
 if partNum in runTest:
@@ -109,11 +110,12 @@ if partNum in runTest:
     artTest.end_of_part_print(partNum)
 
 
-# Part 8
+# Part 9
 # Base class
-partNum = 8
+partNum = 9
 if partNum in runTest:
     artTest.start_of_part_print(partNum)
+    
     class MyBclass:
         """My base class containing the "main" do_math() func"""
         def do_math(self, num):
