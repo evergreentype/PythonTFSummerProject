@@ -113,6 +113,7 @@ if partNum in runTest:
 # Base class
 partNum = 8
 if partNum in runTest:
+    artTest.start_of_part_print(partNum)
     class MyBclass:
         """My base class containing the "main" do_math() func"""
         def do_math(self, num):
@@ -130,3 +131,5 @@ if partNum in runTest:
     # Test the output
     myBc = MyBclass()
     print(myBc.do_math(2))
+
+    artTest.end_of_part_print(partNum)
