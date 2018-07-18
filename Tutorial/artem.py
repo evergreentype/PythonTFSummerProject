@@ -1,7 +1,7 @@
 import artTest
 
 # Run the tests
-runTest = (7,)
+runTest = (8,)
 
 
 # Part 1, 3
@@ -107,3 +107,22 @@ if partNum in runTest:
     
 
     artTest.end_of_part_print(partNum)
+
+
+# Part 8
+# Base class
+partNum = 8
+if partNum in runTest:
+    class MyBclass:
+        def do_math(self, num):
+            myDc = MyDclass()
+            
+            return num + myDc.do_math()
+
+    class MyDclass(MyBclass):
+        def do_math(self):
+            return 2
+
+    myBc = MyBclass()
+
+    print(myBc.do_math(2))
