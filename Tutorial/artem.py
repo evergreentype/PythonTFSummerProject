@@ -1,14 +1,11 @@
 import artTest
 
 # Run the tests
-runTest = (9,)
-
+runTest = (1,4,5,6,7,9)
+partsDict = {}
 
 # Part 1, 3
-partNum = 1
-if 1 in runTest:
-    artTest.start_of_part_print(partNum)
-    
+def do_part_1():
     # 2+2
     print(2+2)
 
@@ -38,14 +35,10 @@ if 1 in runTest:
     while '':
         print("while true")
 
-    artTest.end_of_part_print(partNum)
-
+partsDict.update({1: do_part_1})
 
 # Part 4
-partNum = 4
-if partNum in runTest:
-    artTest.start_of_part_print(partNum)
-    
+def do_part_4():
     # Does the in keyword work with numbers, instead of vars
     if 1 in [1,2,3]:
         print("1 is in 1,2,3")
@@ -58,21 +51,18 @@ if partNum in runTest:
     # Printing a docstring
     print(doc_str_test.__doc__)
 
-    artTest.end_of_part_print(partNum)
-
+partsDict.update({4: do_part_4})
 
 # Part 5
 # no code, sorry
-partNum = 5
-if partNum in runTest:
+def do_part_5():
     pass
+
+partsDict.update({5: do_part_5})
 
 
 # Part 6
-partNum = 6
-if partNum in runTest:
-    artTest.start_of_part_print(partNum)
-    
+def do_part_6():
     # Add a module
     # In the beggining of the module
 
@@ -82,40 +72,33 @@ if partNum in runTest:
 
     # List names of the imported module
     print(dir(artTest))
-    
-    
-    artTest.end_of_part_print(partNum)
+
+partsDict.update({6: do_part_6})
 
 
 # Part 7
 # Testing string formatting
-partNum = 7
-if partNum in runTest:
-    artTest.start_of_part_print(partNum)
-    
+def do_part_7():
     # Import sys objects
     import sys
     
     print('{} equals 2'.format(2))
     
     # Receive input using stdin
+    print("Enter stuff: ")
     pr = sys.stdin.readline()
     print(f'user input = {pr}')
     
     # Receive input using input()
     prp = input('Enter your input, sir: ')
     print(f'user input = {prp}')
-    
 
-    artTest.end_of_part_print(partNum)
+partsDict.update({7: do_part_7})
 
 
 # Part 9
 # Base class
-partNum = 9
-if partNum in runTest:
-    artTest.start_of_part_print(partNum)
-    
+def do_part_9():
     class MyBclass:
         """My base class containing the "main" do_math() func"""
         def do_math(self, num):
@@ -134,4 +117,13 @@ if partNum in runTest:
     myBc = MyBclass()
     print(myBc.do_math(2))
 
-    artTest.end_of_part_print(partNum)
+partsDict.update({9: do_part_9})
+
+# Iterate
+for i in runTest:
+    if i in partsDict:
+        artTest.start_of_part_print(i)
+        
+        partsDict[i]()
+        
+        artTest.end_of_part_print(i)
