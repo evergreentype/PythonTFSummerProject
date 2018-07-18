@@ -114,15 +114,19 @@ if partNum in runTest:
 partNum = 8
 if partNum in runTest:
     class MyBclass:
+        """My base class containing the "main" do_math() func"""
         def do_math(self, num):
+            # Create a new instance of the derived class
             myDc = MyDclass()
             
+            # Call the overriden func within the "main" func
             return num + myDc.do_math()
 
     class MyDclass(MyBclass):
+        """My derived class that overrides the do_math() func"""
         def do_math(self):
             return 2
 
+    # Test the output
     myBc = MyBclass()
-
     print(myBc.do_math(2))
