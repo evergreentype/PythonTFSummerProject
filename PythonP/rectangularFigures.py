@@ -1,2 +1,2 @@
-import math
+import math, funClasses
 
