@@ -123,3 +123,29 @@ class SubClass(MainClassThatContainOtherClasses):
 	def multiply():
 		return 10
 #-------------------------------------------
+
+
+
+
+#-------------------------------------------
+class PTest:
+	def count(a,b,c):
+		print(a+b+c)
+
+	def count(a,b):
+		print(a+b)
+
+a=12
+b=2
+c=1
+PTest.count(a,b)
+#-------------------------------------------
+
+class overloadTest:
+	def test1(self):
+		print('test1')
+
+	def test2(self,a):
+		print('test2')
+
+	def ctrlTest(self, *args):
