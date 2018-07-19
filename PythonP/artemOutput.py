@@ -1,6 +1,8 @@
 import funClasses, rectangularFigures
 
-testVal = funClasses.Length()
+# Norm
+testVal = rectangularFigures.RectanglePerimeter()
 
-print(dir(testVal))
-print(testVal.valsAmount)
+testVal.set_value(6, 5)
+
+print(testVal.get_value())
