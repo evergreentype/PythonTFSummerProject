@@ -146,6 +146,29 @@ def do_part_9():
     # Access a method of a parent's class
     super(type(myLClassTest), myLClassTest).output_funny_name('Gavr')
 
+    # Test method overloading
+    class PolymorphismTest:
+        def test(self, *args):
+            """Controler method"""
+            if len(args) == 0:
+                self.test_1()
+            elif len(args) == 1:
+                self.test_2(args[0])
+
+        def test_1(self):
+            """Overloaded method 1: 0 argument"""
+            print('polymorth. method 1')
+
+        def test_2(self, number):
+            """Overloaded method 1: 1 argument"""
+            print('polymorth. method ' + str(number))
+
+    myPTest = PolymorphismTest()
+    # print(dir(myPTest))
+
+    myPTest.test()
+    myPTest.test(2)
+
 partsDict.update({9: do_part_9})
 
 # Iterate
