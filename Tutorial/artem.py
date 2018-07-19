@@ -1,7 +1,7 @@
 import artTest
 
 # Run the tests
-runTest = (1,4,5,6,7,9)
+runTest = (9,)
 partsDict = {}
 
 # Part 1, 3
@@ -97,8 +97,8 @@ partsDict.update({7: do_part_7})
 
 
 # Part 9
-# Base class
 def do_part_9():
+    # Test method name resolving
     class MyBclass:
         """My base class containing the "main" do_math() func"""
         def do_math(self, num):
@@ -112,18 +112,50 @@ def do_part_9():
         """My derived class that overrides the do_math() func"""
         def do_math(self):
             return 2
-
-    # Test the output
+    
+    # Print the output
     myBc = MyBclass()
     print(myBc.do_math(2))
+ 
+    # Test "multilevel" inheritance
+    class MyL1Class:
+        a = 1
+        
+        def print_name(self):
+            print('Level ' + str(self.a) + ' class')
+    
+    class MyL2Class(MyL1Class):
+        a = 2
+
+        def output_funny_name(self, name):
+            """Prints a funny name"""
+            print('A funny name is ' + name)
+
+    class MyL3Class(MyL2Class):
+        a = 3
+
+        def output_funny_name(self):
+            """While using it, it overrides a method and hardcodes its output """
+            super(MyL3Class, self).output_funny_name('Savr')
+
+    myLClassTest = MyL3Class()
+    # Call a method which is 3 levels "deep"
+    myLClassTest.print_name()
+    # Method name is found at level 3
+    myLClassTest.output_funny_name()
+    # Access a method of a parent's class
+    super(type(myLClassTest), myLClassTest).output_funny_name('Gavr')
 
 partsDict.update({9: do_part_9})
 
 # Iterate
 for i in runTest:
     if i in partsDict:
+        # Part title
         artTest.start_of_part_print(i)
         
+        # Call the corresponding function
         partsDict[i]()
         
+        # End of the part
         artTest.end_of_part_print(i)
