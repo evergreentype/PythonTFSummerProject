@@ -1,7 +1,9 @@
 import math
 
 class MathObject:
-	"""Base abstract class inherited by all primitives"""
+	"""Base abstract class inherited by all primitives.
+
+	Implementation of get and set value methods required"""
 
 	value = None
 
@@ -16,7 +18,9 @@ class MathObject:
 
 
 class Composite:
-	"""Base abstract class that identifies composite objects"""
+	"""Base abstract class that identifies composite objects
+
+	Supports adding and removing elements for a list of properties """
 
 	properties = []
 
@@ -28,6 +32,7 @@ class Composite:
 
 
 class CompositeMathObject(MathObject, Composite):
+	"""A filler class that combines a primitive (i.e. has a value) and composite (i.e. has properties) types"""
 	pass
 
 
@@ -38,6 +43,7 @@ class Length(MathObject):
 		self.value = -1
 
 	def set_value(self, *args):
+		"""Accepts a single positive value"""
 		if (len(args) == 1 and args[0] > 0):
 			self.value = float(args[0])
 			return True
@@ -46,6 +52,7 @@ class Length(MathObject):
 			return False
 
 	def get_value(self):
+		"""Returns a single positive value or a negative -1, if value is not set"""
 		if (self.value != None and self.value > 0):
 			return self.value
 		else:
@@ -53,6 +60,7 @@ class Length(MathObject):
 
 
 class Perimeter(Length, CompositeMathObject):
+	"""Inherits properties of a one-dimentional line, but is able to have properties"""
 	pass
 
 

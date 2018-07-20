@@ -1,8 +1,8 @@
 import funClasses, rectangularFigures
 
-# Norm
+# Test rectangle's perimeter
 testVal = rectangularFigures.RectanglePerimeter()
 
-testVal.set_value(6, 5)
+testVal.set_value(3, 6)
 
 print(testVal.get_value())
