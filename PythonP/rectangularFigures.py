@@ -21,7 +21,7 @@ class RectanglePerimeter(funClasses.Perimeter):
 		if (super(funClasses.Perimeter, self).set_value(*args) == True):
 			return True
 
-		# Else, try to assign them as properties to a and b
+		# Else, try to assign arguments as values to a and b
 		if (len(args) == 2 and args[0] > 0 and args[1] > 0):
 			self.properties[0].set_value(args[0])
 			self.properties[1].set_value(args[1])
@@ -34,10 +34,10 @@ class RectanglePerimeter(funClasses.Perimeter):
 
 	def get_value(self):
 		"""Return a value if it is set using the same rules as for the Length"""
-		if (((super(funClasses.Perimeter, self)).get_value()) != -1):
+		if (((super(funClasses.Perimeter, self)).get_value()) != DEFAULT_NEGATIVE_VALUE):
 			return self.value
 		else:
-			return -1
+			return DEFAULT_NEGATIVE_VALUE
 			# OLD raise Exception("Properties missing") 
 
 	def calculate_rect_perimeter(self):

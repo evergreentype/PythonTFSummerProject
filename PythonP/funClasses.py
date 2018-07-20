@@ -1,5 +1,7 @@
 import math
 
+DEFAULT_NEGATIVE_VALUE = -1
+
 class MathObject:
 	"""Base abstract class inherited by all primitives.
 
@@ -20,12 +22,17 @@ class MathObject:
 class Composite:
 	"""Base abstract class that identifies composite objects
 
-	Supports adding and removing elements for a list of properties """
+	Supports adding and removing elements for a list of properties"""
 
 	properties = []
 
 	def add_property(self, arg):
 		self.properties.append(arg)
+
+	def remove_property(self, index):
+		"""Remove an element at an index and receive it"""
+		val = self.properties.pop(index)
+		return val
 
 	def get_properties(self):
 		return self.properties
@@ -40,7 +47,7 @@ class Length(MathObject):
 	"""A simple one-dimentional line"""
 
 	def __init__(self):
-		self.value = -1
+		self.value = DEFAULT_NEGATIVE_VALUE
 
 	def set_value(self, *args):
 		"""Accepts a single positive value"""
