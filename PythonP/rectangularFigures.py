@@ -1,11 +1,12 @@
 import funClasses
+from funClasses import DEFAULT_NEGATIVE_VALUE
 
 class RectanglePerimeter(funClasses.Perimeter):
 	"""Perimeter implementation for a rectangle figure"""
 
 	def __init__(self):
 		"""Initialise length (a) and width (b) and add them to properties """
-		super(RectanglePerimeter, self).__init__()
+		super(funClasses.Perimeter, self).__init__()
 
 		a = funClasses.Length()
 		b = funClasses.Length()
@@ -13,28 +14,34 @@ class RectanglePerimeter(funClasses.Perimeter):
 		self.add_property(a)
 		self.add_property(b)
 
-
-	def set_value(self, *args):
+	def set_value(self, flag, *args):
 		"""Assign a single primitive value (same rules as for Length) or with 2 attributes """
 
-		# Check if arguments passed are for the Length assignment
-		if (super(funClasses.Perimeter, self).set_value(*args) == True):
-			return True
+		# Try to assign a value to itself
+		if (flag == True):
+			if ((len(args) >= 1) and self.validate_value(args[0]) == True):
+				self.value = args[0]
+				return True
 
-		# Else, try to assign arguments as values to a and b
-		if (len(args) == 2 and args[0] > 0 and args[1] > 0):
+		# Try to assign arguments as values to a and b
+		elif (len(args) == 2):
+			if ((self.properties[0].validate_value(args[0]) == False) or (self.properties[1].validate_value(args[1]) == False)):
+				return False
+			
 			self.properties[0].set_value(args[0])
 			self.properties[1].set_value(args[1])
 
+			print(flag)
+			print(args)
+
 			# Try to calculate a value
-			return self.set_value(self.calculate_rect_perimeter())
+			return self.set_value(True, self.calculate_rect_perimeter())
 		else:
-			# OLD raise Exception("Wrong amount of args or either value < 0")
 			return False
 
 	def get_value(self):
 		"""Return a value if it is set using the same rules as for the Length"""
-		if (((super(funClasses.Perimeter, self)).get_value()) != DEFAULT_NEGATIVE_VALUE):
+		if (self.value != DEFAULT_NEGATIVE_VALUE):
 			return self.value
 		else:
 			return DEFAULT_NEGATIVE_VALUE
@@ -42,11 +49,10 @@ class RectanglePerimeter(funClasses.Perimeter):
 
 	def calculate_rect_perimeter(self):
 		"""Standard formula for calculating a rectangle's perimeter"""
-		a = self.properties[0]
-		b = self.properties[1]
+		a = self.properties[0].get_value()
+		b = self.properties[1].get_value()
 
-		return 2 * (a.get_value() + b.get_value())
-
+		return 2 * (a + b)
 
 
 

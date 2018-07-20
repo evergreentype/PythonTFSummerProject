@@ -5,15 +5,18 @@ DEFAULT_NEGATIVE_VALUE = -1
 class MathObject:
 	"""Base abstract class inherited by all primitives.
 
-	Implementation of get and set value methods required"""
+	Implementation of get, set and validate value methods required"""
 
 	value = None
 
 	def set_value(self, *args):
-		raise NotImplementedError("Must implement method set_value()")
+		raise NotImplementedError("Must implement method set_value(self, *args)")
 
 	def get_value(self):
-		raise NotImplementedError("Must implement method get_value()")
+		raise NotImplementedError("Must implement method get_value(self)")
+
+	def validate_value(self, input):
+		raise NotImplementedError("Must implement method check_input_value(self, input)")
 
 	def return_value_error(self):
 		raise Exception("Value does not exist or does not satisfy the condition")
@@ -26,21 +29,25 @@ class Composite:
 
 	properties = []
 
-	def add_property(self, arg):
-		self.properties.append(arg)
+	def add_property(self, val):
+		self.properties.append(val)
 
-	def remove_property(self, index):
-		"""Remove an element at an index and receive it"""
-		val = self.properties.pop(index)
-		return val
+	def remove_property(self, val):
+		"""Remove an element by its value"""
+		if val in self.properties:
+			self.properties.remove(val)
+			return True
+		else: return False
 
 	def get_properties(self):
 		return self.properties
 
 
-class CompositeMathObject(MathObject, Composite):
+class CompositeMathObject(Composite, MathObject):
 	"""A filler class that combines a primitive (i.e. has a value) and composite (i.e. has properties) types"""
-	pass
+
+	def set_value(self, flag, *args):
+		raise NotImplementedError("Must implement method set_value(self, flag, *args)")
 
 
 class Length(MathObject):
@@ -51,7 +58,8 @@ class Length(MathObject):
 
 	def set_value(self, *args):
 		"""Accepts a single positive value"""
-		if (len(args) == 1 and args[0] > 0):
+
+		if (self.validate_value(args[0])):
 			self.value = float(args[0])
 			return True
 		else:
@@ -65,8 +73,14 @@ class Length(MathObject):
 		else:
 			return self.value
 
+	def validate_value(self, input):
+		"""Valida input on existing and having >0 value"""
+		if (input != None and input > 0):
+			return True
+		else:
+			return False
 
-class Perimeter(Length, CompositeMathObject):
+class Perimeter(CompositeMathObject, Length):
 	"""Inherits properties of a one-dimentional line, but is able to have properties"""
 	pass
 
