@@ -1,5 +1,5 @@
 import funClasses
-from funClasses import DEFAULT_NEGATIVE_VALUE
+from funClasses import DEFAULT_NEGATIVE_VALUE, DEFAULT_NAME
 
 class RectanglePerimeter(funClasses.Perimeter):
 	"""Perimeter implementation for a rectangle figure"""
@@ -8,6 +8,10 @@ class RectanglePerimeter(funClasses.Perimeter):
 		"""Initialise length (a) and width (b) and add them to properties"""
 		super(funClasses.Perimeter, self).__init__()
 
+		# Set defaults
+		self.set_name("Rectangle Perimeter")
+
+		# Initialise properties
 		self.__a = funClasses.Length()
 		self.__b = funClasses.Length()
 
@@ -45,6 +49,9 @@ class SquarePerimeter(RectanglePerimeter):
 		"""Initialise using the rectangle's class but remove the width (b) property"""
 		super(funClasses.Perimeter, self).__init__()
 		self.remove_property(self.properties[1])
+
+		# Set defaults
+		self.set_name("Square Perimeter")
 
 	def assign_properties(self, *args):
 		"""Validate and set length (a)"""

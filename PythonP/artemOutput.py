@@ -13,9 +13,9 @@ def do_test_1():
 	testVal1.set_value(True, 5)
 	testVal2.set_value(False, 4, 3)
 
-	print('# Rectangle perimeter: ')
-	print('From value 5: ' + str(testVal1.get_value()))
-	print('From input a=4 and b=3: ' + str(testVal2.get_value()))
+	print("# " + testVal1.get_name() + ": ")
+	print('From value 5: ' + str(testVal1.get_value()) + ' ' + testVal1.get_unit())
+	print('From input a=4 and b=3: ' + str(testVal2.get_value()) + ' ' + testVal2.get_unit())
 testsDict.update({1: do_test_1})
 
 def do_test_2():
@@ -25,14 +25,10 @@ def do_test_2():
 	testVal1.set_value(True, 7)
 	testVal2.set_value(False, 3)
 
-	print('# Square perimeter: ')
-	print('From value 7: ' + str(testVal1.get_value()))
-	print('From input a=3: ' + str(testVal2.get_value()))
+	print("# " + testVal1.get_name() + ": ")
+	print('From value 7: ' + str(testVal1.get_value()) + ' ' + testVal1.get_unit())
+	print('From input a=3: ' + str(testVal2.get_value()) + ' ' + testVal2.get_unit())
 testsDict.update({2: do_test_2})
-
-
-
-
 
 
 # Print methods
