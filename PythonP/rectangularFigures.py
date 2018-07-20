@@ -12,14 +12,14 @@ class RectanglePerimeter(funClasses.Perimeter):
 		self.set_name("Perimeter of Rectangle")
 
 		# Initialise properties
-		self.__l = funClasses.Length()
-		self.__w = funClasses.Length()
-		self.__l.set_name("Length")
-		self.__w.set_name("Width")
+		__l = funClasses.Length()
+		__w = funClasses.Length()
+		__l.set_name("Len1")
+		__w.set_name("Width")
 
 		# Add to Properties
-		self.add_property(self.__l)
-		self.add_property(self.__w)
+		self.add_property(__l)
+		self.add_property(__w)
 
 	def assign_properties(self, *args):
 		"""Validate and set length and width"""
@@ -56,14 +56,14 @@ class RectangleArea(funClasses.Area):
 		self.set_name("Area of Rectangle")
 
 		# Initialise properties
-		self.__l = funClasses.Length()
-		self.__w = funClasses.Length()
-		self.__l.set_name("Length")
-		self.__w.set_name("Width")
+		__l = funClasses.Length()
+		__w = funClasses.Length()
+		__l.set_name("Len2")
+		__w.set_name("Width")
 
 		# Add to Properties
-		self.add_property(self.__l)
-		self.add_property(self.__w)
+		self.add_property(__l)
+		self.add_property(__w)
 
 	def assign_properties(self, *args):
 		"""Validate and set length and width"""
@@ -120,7 +120,7 @@ class SquarePerimeter(RectanglePerimeter):
 class SquareArea(RectangleArea):
 	def __init__(self):
 		"""Initialise length and width and add them to properties"""
-		super(RectangleArea, self).__init__()
+		super(SquareArea, self).__init__()
 		self.remove_property(self.properties[1])
 
 		# Set defaults

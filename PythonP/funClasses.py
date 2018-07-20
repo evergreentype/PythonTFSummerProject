@@ -1,8 +1,10 @@
 import math
 
-# Global constant for initial value initialisation for positive primitives
-DEFAULT_NEGATIVE_VALUE = -1
-DEFAULT_NAME = "default name"
+# Global constant for initial value initialisation for positive values
+DEFAULT_NEGATIVE_VALUE = None
+# Global constant for initial name initialisation
+DEFAULT_NAME = "Value"
+# Global dictonary for setting units
 DEFAULT_UNITS = {1:"units", 2:"units squared"}
 
 class MathObject:
@@ -14,7 +16,7 @@ class MathObject:
 	value = None
 	# Name (string)
 	__name = None
-	# Unit (string)
+	# Unit (dictionary value)
 	__unit = None
 
 	def __init__(self):

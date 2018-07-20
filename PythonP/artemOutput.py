@@ -3,16 +3,52 @@ import funClasses, rectangularFigures
 # STRUCTURE TAKEN FROM Tutorial/artem.py and Tutorial/artemTest.py
 
 # Run the tests
-runTest = (1,2,3,4)
+runTest = (5,)
 testsDict = {}
+
+
+# Print functions
+def inline_print(xObject=None, tempLst=None):
+	"""placeholder"""
+
+	# Rectangle Area from value: 10
+	# Rectangle Area from input (l=2 and w=5): 10
+
+	outputStr = None
+
+	outputStr = xObject.get_name()
+
+	# Test if it is Composite type
+	tempLst = list()
+	if (isinstance(xObject, funClasses.Composite)):
+		# BUG: Messes up output
+		tempLst = [(property.get_value(), property.get_name()) for property in xObject.get_properties() 
+		if (property.get_value() != None)]
+
+	if (len(tempLst) > 0):
+		outputStr += " from input ( "
+		
+		for (value, name) in tempLst:
+			outputStr += name + "=" + str(value) + " "
+		
+		outputStr += "): "
+		tempLst.clear()
+	else:
+		outputStr += " from value: "
+	
+	outputStr += str(xObject.get_value())
+
+	outputStr += " " + xObject.get_unit()
+
+	print(outputStr)
 
 
 # Main Block
 print("ARTEM'S TESTS")
 def do_test_1():
 	"""Test rectangle's perimeter"""
-	testVal2 = rectangularFigures.RectanglePerimeter()
 	testVal1 = rectangularFigures.RectanglePerimeter()
+	testVal2 = rectangularFigures.RectanglePerimeter()
 	testVal1.set_value(True, 5)
 	testVal2.set_value(False, 4, 3)
 
@@ -56,6 +92,21 @@ def do_test_4():
 	print('From value 3: ' + str(testVal1.get_value()) + ' ' + testVal1.get_unit())
 	print('From input l=12: ' + str(testVal2.get_value()) + ' ' + testVal2.get_unit())
 testsDict.update({4: do_test_4})
+
+def do_test_5():
+	"""Test square's area"""
+	testVal1 = rectangularFigures.RectanglePerimeter()
+	testVal2 = rectangularFigures.RectangleArea()
+	testVal3 = rectangularFigures.SquarePerimeter()
+
+	testVal1.set_value(False, 4, 7)
+	testVal2.set_value(True, 13)
+	testVal3.set_value(False, 44)
+
+	inline_print(testVal1)
+	inline_print(testVal2)
+	inline_print(testVal3)
+testsDict.update({5: do_test_5})
 
 
 # Print methods
