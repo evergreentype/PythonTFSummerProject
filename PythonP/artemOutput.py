@@ -3,7 +3,7 @@ import funClasses, rectangularFigures
 # STRUCTURE TAKEN FROM Tutorial/artem.py and Tutorial/artemTest.py
 
 # Run the tests
-runTest = (1,2)
+runTest = (1,2,3)
 testsDict = {}
 
 def do_test_1():
@@ -15,7 +15,7 @@ def do_test_1():
 
 	print("# " + testVal1.get_name() + ": ")
 	print('From value 5: ' + str(testVal1.get_value()) + ' ' + testVal1.get_unit())
-	print('From input a=4 and b=3: ' + str(testVal2.get_value()) + ' ' + testVal2.get_unit())
+	print('From input l=4 and w=3: ' + str(testVal2.get_value()) + ' ' + testVal2.get_unit())
 testsDict.update({1: do_test_1})
 
 def do_test_2():
@@ -27,8 +27,20 @@ def do_test_2():
 
 	print("# " + testVal1.get_name() + ": ")
 	print('From value 7: ' + str(testVal1.get_value()) + ' ' + testVal1.get_unit())
-	print('From input a=3: ' + str(testVal2.get_value()) + ' ' + testVal2.get_unit())
+	print('From input l=3: ' + str(testVal2.get_value()) + ' ' + testVal2.get_unit())
 testsDict.update({2: do_test_2})
+
+def do_test_3():
+	"""Test square's perimeter"""
+	testVal1 = rectangularFigures.RectangleArea()
+	testVal2 = rectangularFigures.RectangleArea()
+	testVal1.set_value(True, 13)
+	testVal2.set_value(False, 9, 5)
+
+	print("# " + testVal1.get_name() + ": ")
+	print('From value 13: ' + str(testVal1.get_value()) + ' ' + testVal1.get_unit())
+	print('From input l=9 w=5: ' + str(testVal2.get_value()) + ' ' + testVal2.get_unit())
+testsDict.update({3: do_test_3})
 
 
 # Print methods

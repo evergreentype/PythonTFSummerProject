@@ -3,7 +3,7 @@ import math
 # Global constant for initial value initialisation for positive primitives
 DEFAULT_NEGATIVE_VALUE = -1
 DEFAULT_NAME = "default name"
-DEFAULT_UNIT = "default unit"
+DEFAULT_UNITS = {1:"units", 2:"units squared"}
 
 class MathObject:
 	"""Base abstract class inherited by all primitives.
@@ -79,6 +79,7 @@ class CompositeMathObject(Composite, MathObject):
 				return True
 			else:
 				return False
+		# Insert the value of val into args and pass it into the assigning method
 		elif (flag == False):
 			temp = list(args)
 			temp.insert(0, val)
@@ -90,12 +91,12 @@ class CompositeMathObject(Composite, MathObject):
 
 
 class Length(MathObject):
-	"""A simple one-dimentional line"""
+	"""1D primitive"""
 
 	def __init__(self):
 		self.value = DEFAULT_NEGATIVE_VALUE
 		self.set_name(DEFAULT_NAME)
-		self.set_unit("cm")
+		self.set_unit(DEFAULT_UNITS[1])
 
 	def set_value(self, *args):
 		"""Accepts a single positive value"""
@@ -114,7 +115,7 @@ class Length(MathObject):
 			return DEFAULT_NEGATIVE_VALUE
 
 	def validate_value(self, input):
-		"""Valida input on existing and having >0 value"""
+		"""Validate if input exists and has > 0 value"""
 		if (input != None and input > 0):
 			return True
 		else:
@@ -125,8 +126,14 @@ class Perimeter(CompositeMathObject, Length):
 	"""Inherits properties of a one-dimentional line, but is able to have properties"""
 	pass
 
+
 class Area(CompositeMathObject, Length):
-	"""Inherits properties of a one-dimentional line, but is able to have properties"""
-	pass
+	"""Abstract 2D concept"""
+
+	def __init__(self):
+		self.value = DEFAULT_NEGATIVE_VALUE
+		self.set_name(DEFAULT_NAME)
+		self.set_unit(DEFAULT_UNITS[2])
+
 
 
