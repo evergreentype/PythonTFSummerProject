@@ -94,7 +94,7 @@ class RectangleArea(funClasses.Area):
 class SquarePerimeter(RectanglePerimeter):
 	def __init__(self):
 		"""Initialise using the rectangle's class but remove the width (b) property"""
-		super(funClasses.Perimeter, self).__init__()
+		super(SquarePerimeter, self).__init__()
 		self.remove_property(self.properties[1])
 
 		# Set defaults
@@ -117,6 +117,28 @@ class SquarePerimeter(RectanglePerimeter):
 			return False
 
 
+class SquareArea(RectangleArea):
+	def __init__(self):
+		"""Initialise length and width and add them to properties"""
+		super(RectangleArea, self).__init__()
+		self.remove_property(self.properties[1])
 
+		# Set defaults
+		self.set_name("Area of Square")
 
+	def assign_properties(self, *args):
+		"""Validate and set length and width"""
+
+		if (len(args) == 1):
+			# Validate
+			if (self.properties[0].validate_value(args[0]) == False):
+				return False
+			
+			# Set properties
+			self.properties[0].set_value(args[0])
+
+			# Try to calculate a value
+			return self.set_value(True, self.calculate_rect_area(self.properties[0], self.properties[0]))
+		else:
+			return False
 
