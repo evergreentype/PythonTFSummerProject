@@ -59,7 +59,7 @@ class Math_Obj:
 						sw1=False
 					else:
 						sw1=True
-						print('You etered incorrect data, pls try again')
+						print('You entered incorrect data, pls try again')
 
 			if switch:
 				return triangle.area()
