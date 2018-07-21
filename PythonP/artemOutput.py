@@ -11,10 +11,8 @@ testsDict = {}
 def inline_print(xObject=None, tempLst=None):
 	"""placeholder"""
 
-	# Rectangle Area from value: 10
-	# Rectangle Area from input (l=2 and w=5): 10
-
-	outputStr = None
+	# Rectangle Area from value: 10 unit
+	# Rectangle Area from input (l=2 and w=5): 10 unit
 
 	outputStr = xObject.get_name()
 
