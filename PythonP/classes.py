@@ -16,6 +16,10 @@ class Math_Obj:
 	def identify(self,switch,nameFig):
 		if nameFig=="Circle" or nameFig=="circle":
 			circle=Circle()
+			if Circle.radius==0:
+				print('input radius: ')
+				Circle.radius=int(input())
+
 			if switch:
 				return circle.area()
 			else:
@@ -24,6 +28,11 @@ class Math_Obj:
 			#print(f'{circle.perimetr():.2f} cm')
 		elif nameFig=="Parallelogram" or nameFig=="parallelogram":
 			parallelogram=Parallelogram()
+			if Parallelogram.base==0:
+				print('input base: ')
+				Parallelogram.base=int(input())
+				print('input height: ')
+				Parallelogram.height=int(input())
 			if switch:
 				return parallelogram.area()
 			else:
@@ -32,6 +41,26 @@ class Math_Obj:
 			#print(f'{parallelogram.perimetr():.2f} cm')
 		elif nameFig=="Triangle" or nameFig=="triangle":
 			triangle=Triangle()
+			if Triangle.side1==0:
+				print('input base: ')
+				Triangle.side1=int(input())
+				print('input height: ')
+				Triangle.height=int(input())
+
+			
+			if Triangle.side2==0:
+				sw1=True
+				while sw1:
+					print('input side2: ')
+					Triangle.side2=int(input())
+					print('input side3: ')
+					Triangle.side3=int(input())
+					if Triangle.side1+Triangle.side2>Triangle.side3 and Triangle.side2+Triangle.side3>Triangle.side1 and Triangle.side1+Triangle.side3>Triangle.side2:
+						sw1=False
+					else:
+						sw1=True
+						print('You etered incorrect data, pls try again')
+
 			if switch:
 				return triangle.area()
 			else:
@@ -45,8 +74,6 @@ class Circle(Math_Obj):
 	radius=0
 
 	def area(self):
-		print('input radius: ')
-		Circle.radius=int(input())
 		return math.pi*Circle.radius**2
 
 	def perimetr(self):
@@ -58,10 +85,6 @@ class Parallelogram(Math_Obj):
 	height=0
 
 	def area(self):
-		print('input base: ')
-		Parallelogram.base=int(input())
-		print('input height: ')
-		Parallelogram.height=int(input())
 		return Parallelogram.base*Parallelogram.height
 
 	def perimetr(self):
@@ -75,22 +98,7 @@ class Triangle(Math_Obj):
 	side3=0
 
 	def area(self):
-		print('input base: ')
-		Triangle.side1=int(input())
-		print('input height: ')
-		Triangle.height=int(input())
 		return Triangle.side1*Triangle.height/2
 
 	def perimetr(self):
-		switch=True
-		while switch:
-			print('input side2: ')
-			Triangle.side2=int(input())
-			print('input side3: ')
-			Triangle.side3=int(input())
-			if Triangle.side1+Triangle.side2>Triangle.side3 and Triangle.side2+Triangle.side3>Triangle.side1 and Triangle.side1+Triangle.side3>Triangle.side2:
-				switch=False
-			else:
-				switch=True
-				print('You etered incorrect data, pls try again')
-		return self.side1+self.side2+self.side3
+		return Triangle.side1+Triangle.side2+Triangle.side3
