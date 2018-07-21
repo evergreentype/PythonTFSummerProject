@@ -23,7 +23,7 @@ class MathObject:
 		raise NotImplementedError("Must implement method init(self)")
 
 	# Implementation methods for value operations
-	def set_value(self, *args):
+	def set_value(self, val):
 		raise NotImplementedError("Must implement method set_value(self, *args)")
 	def get_value(self):
 		raise NotImplementedError("Must implement method get_value(self)")
@@ -100,11 +100,11 @@ class Length(MathObject):
 		self.set_name(DEFAULT_NAME)
 		self.set_unit(DEFAULT_UNITS[1])
 
-	def set_value(self, *args):
+	def set_value(self, val):
 		"""Accepts a single positive value"""
 
-		if (self.validate_value(args[0])):
-			self.value = float(args[0])
+		if (self.validate_value(val)):
+			self.value = float(val)
 			return True
 		else:
 			return False
