@@ -169,6 +169,34 @@ def do_part_9():
     myPTest.test()
     myPTest.test(2)
 
+     # Test method overloading
+    class BaseToChildTest:
+        def mym1(self):
+            print("mym1")
+
+    class BaseToChildTest2(BaseToChildTest):
+        def mym2(self):
+            print("mym2")
+
+    class BaseToChildTest3(BaseToChildTest):
+        def mym3(self):
+            print("mym3")
+
+    myObjTest = BaseToChildTest()
+
+    print("enter 1-BaseToChildTest")
+    print("enter 2-BaseToChildTest2")
+    print("enter 3-BaseToChildTest3")
+    usrInput = int(input())
+
+    if (usrInput == 1):
+        myObjTest.mym1()
+    elif(usrInput == 2):
+        myObjTest.mym2()
+    elif(usrInput == 3):
+        myObjTest.mym3()
+
+
 partsDict.update({9: do_part_9})
 
 # Iterate
