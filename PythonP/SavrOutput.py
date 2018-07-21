@@ -28,5 +28,6 @@ elif FigSelected==2:
 	base=int(input())
 	print('input base2')
 	base+=int(input())
-circleFig=circleFig.FigSelec(FigSelected,radius,base,height)
-print("{:.1f} cm^2".format(circleFig.find_value()))
+circF=circleFig.Area()
+circF.set_par(FigSelected,radius,base,height)
+print("{:.1f} cm^2".format(circF.find_value()))
