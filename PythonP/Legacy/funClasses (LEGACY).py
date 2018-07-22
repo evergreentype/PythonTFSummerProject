@@ -8,8 +8,7 @@ DEFAULT_NEGATIVE_VALUE = None
 DEFAULT_NAME = "Value"
 # Global dictonary for setting units
 DEFAULT_UNITS = {1:"units", 2:"units squared"}
-# Global constant for number formatting
-DEFAULT_FLOAT_FORMAT = "{:.2f}"
+
 
 # CLASSES
 class MathObject:
@@ -45,10 +44,7 @@ class MathObject:
 	def set_unit(self, xUnit):
 		self.__unit = xUnit
 	def get_unit(self):
-		if (self.__unit == None):
-			return "not set"
-		else:
-			return self.__unit
+		return self.__unit
 
 
 class Composite:
@@ -79,7 +75,25 @@ class CompositeMathObject(Composite, MathObject):
 
 	It is not supposed to be initialised directly"""
 
-	def try_set_value(self, *args):
+	def _set_value(self, flag, val, *args):
+		"""Set the flag = 1 to set the value. Class-specific validation included
+		Set the flag = 0 to invoke the method that assigns properties. Implementation is class specific"""
+
+		# Try to assign a value to itself
+		if (flag == True):
+			if (((val != None) and (self.validate_value(val))) == True):
+				self.value = val
+				return True
+			else:
+				return False
+		# Insert the value of val into args and pass it into the assigning method
+		elif (flag == False):
+			temp = list(args)
+			temp.insert(0, val)
+			args = tuple(temp)
+			return self.assign_properties(*args)
+
+	def assign_properties(self, *args):
 		raise NotImplementedError("Must implement method assign_properties(self, *args)")
 
 
@@ -108,7 +122,7 @@ class Length(MathObject):
 			return DEFAULT_NEGATIVE_VALUE
 
 	def validate_value(self, input):
-		"""Validate if input exists, is a float and has > 0 value"""
+		"""Validate if input exists and has > 0 value"""
 		if (input != None):
 			try:
 				if (float(input) > 0):
@@ -122,12 +136,7 @@ class Length(MathObject):
 class Perimeter(CompositeMathObject, Length):
 	"""Inherits properties of a one-dimentional line, but is able to have properties"""
 	
-	def __init__(self):
-		super(CompositeMathObject, self).__init__()
-
-		self.value = DEFAULT_NEGATIVE_VALUE
-		self.set_name(DEFAULT_NAME)
-		self.set_unit(DEFAULT_UNITS[1])
+	pass
 
 
 class Area(CompositeMathObject, Length):
@@ -135,7 +144,6 @@ class Area(CompositeMathObject, Length):
 
 	def __init__(self):
 		super(CompositeMathObject, self).__init__()
-
 		self.value = DEFAULT_NEGATIVE_VALUE
 		self.set_name(DEFAULT_NAME)
 		self.set_unit(DEFAULT_UNITS[2])

@@ -6,41 +6,6 @@ import funClasses, rectangularFigures
 runTest = (5,)
 testsDict = {}
 
-
-# Print functions
-def inline_print(xObject=None, tempLst=None):
-	"""placeholder"""
-
-	# Rectangle Area from value: 10 unit
-	# Rectangle Area from input (l=2 and w=5): 10 unit
-
-	outputStr = xObject.get_name()
-
-	# Test if it is Composite type
-	tempLst = list()
-	if (isinstance(xObject, funClasses.Composite)):
-		# BUG: Messes up output
-		tempLst = [(property.get_value(), property.get_name()) for property in xObject.get_properties() 
-		if (property.get_value() != None)]
-
-	if (len(tempLst) > 0):
-		outputStr += " from input ( "
-		
-		for (value, name) in tempLst:
-			outputStr += name + "=" + str(value) + " "
-		
-		outputStr += "): "
-		tempLst.clear()
-	else:
-		outputStr += " from value: "
-	
-	outputStr += str(xObject.get_value())
-
-	outputStr += " " + xObject.get_unit()
-
-	print(outputStr)
-
-
 # Main Block
 print("ARTEM'S TESTS")
 def do_test_1():
@@ -97,9 +62,9 @@ def do_test_5():
 	testVal2 = rectangularFigures.RectangleArea()
 	testVal3 = rectangularFigures.SquarePerimeter()
 
-	testVal1.set_value(False, 4, 7)
-	testVal2.set_value(True, 13)
-	testVal3.set_value(False, 44)
+	# testVal1.set_value(False, 4, 7)
+	# testVal2.set_value(True, 13)
+	# testVal3.set_value(False, 44)
 
 	inline_print(testVal1)
 	inline_print(testVal2)
