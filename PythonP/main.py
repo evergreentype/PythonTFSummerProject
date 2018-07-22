@@ -43,7 +43,7 @@ def process_selection(xObject, ignore = False):
 
 def print_formula(xObject):
 	left_side = xObject.get_symbol()
-	right_side = str(xObject.get_value()) + " " + xObject.get_unit()
+	right_side = DEFAULT_FLOAT_FORMAT.format(xObject.get_value()) + " " + xObject.get_unit()
 
 	print(left_side + " = " + right_side)
 
