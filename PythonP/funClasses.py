@@ -17,15 +17,18 @@ class MathObject:
 
 	Implementation of get-, set- and validate-value methods required; init method must set values to defaults. It is not supposed to be initialised directly"""
 
-	# Digital value
-	value = None
-	# Name (string)
-	__name = None
-	# Unit (dictionary value)
-	__unit = None
-
 	def __init__(self):
-		raise NotImplementedError("Must implement method init(self)")
+		"""Declare base values"""
+
+		# Digital value
+		self.__value = None
+		# Name (string)
+		self.__name = None
+		# Symbol
+		self.__symbol = None
+		# Unit (dictionary value)
+		self.__unit = None
+
 
 	# Implementation methods for value operations
 	def set_value(self, val):
@@ -35,20 +38,21 @@ class MathObject:
 	def validate_value(self, input):
 		raise NotImplementedError("Must implement method validate_value(self, input)")
 
-	# Built-in methods for name
-	def set_name(self, xName):
-		self.__name = xName
+	# Built-in methods
+	def set_name(self, name):
+		self.__name = name
 	def get_name(self):
 		return self.__name
 
-	# Built-in methods for unit
-	def set_unit(self, xUnit):
-		self.__unit = xUnit
+	def set_symbol(self, symbol):
+		self.__symbol = symbol
+	def get_symbol(self):
+		return self.__symbol
+
+	def set_unit(self, unit):
+		self.__unit = unit
 	def get_unit(self):
-		if (self.__unit == None):
-			return "not set"
-		else:
-			return self.__unit
+		return self.__unit
 
 
 class Composite:
@@ -87,7 +91,9 @@ class Length(MathObject):
 	"""1D primitive"""
 
 	def __init__(self):
-		self.value = DEFAULT_NEGATIVE_VALUE
+		super(Length, self).__init__()
+
+		self.__value = DEFAULT_NEGATIVE_VALUE
 		self.set_name("Length")
 		self.set_unit(DEFAULT_UNITS[1])
 
@@ -95,15 +101,15 @@ class Length(MathObject):
 		"""Accepts a single positive value"""
 
 		if (self.validate_value(val)):
-			self.value = float(val)
+			self.__value = float(val)
 			return True
 		else:
 			return False
 
 	def get_value(self):
 		"""Returns a single positive value or a negative -1, if value is not set"""
-		if (self.value != None and self.value > 0):
-			return self.value
+		if (self.__value != None and self.__value > 0):
+			return self.__value
 		else:
 			return DEFAULT_NEGATIVE_VALUE
 
@@ -125,8 +131,9 @@ class Perimeter(CompositeMathObject, Length):
 	def __init__(self):
 		super(CompositeMathObject, self).__init__()
 
-		self.value = DEFAULT_NEGATIVE_VALUE
+		self.set_value(DEFAULT_NEGATIVE_VALUE)
 		self.set_name(DEFAULT_NAME)
+		self.set_symbol("P")
 		self.set_unit(DEFAULT_UNITS[1])
 
 
@@ -136,8 +143,9 @@ class Area(CompositeMathObject, Length):
 	def __init__(self):
 		super(CompositeMathObject, self).__init__()
 
-		self.value = DEFAULT_NEGATIVE_VALUE
+		self.set_value(DEFAULT_NEGATIVE_VALUE)
 		self.set_name(DEFAULT_NAME)
+		self.set_symbol("A")
 		self.set_unit(DEFAULT_UNITS[2])
 
 

@@ -12,14 +12,17 @@ class RectanglePerimeter(funClasses.Perimeter):
 
 		# Set defaults
 		self.set_name("Perimeter of Rectangle")
+		self.set_symbol("P(rect)")
 
-		# Initialise get_properties()
+		# Initialise properties
 		__l = funClasses.Length()
 		__w = funClasses.Length()
 		__l.set_name("Length")
 		__w.set_name("Width")
+		__l.set_symbol("l")
+		__w.set_symbol("w")
 
-		# Add to get_properties()
+		# Add to properties
 		self.add_property(__l)
 		self.add_property(__w)
 
@@ -42,12 +45,15 @@ class RectangleArea(funClasses.Area):
 
 		# Set defaults
 		self.set_name("Area of Rectangle")
+		self.set_symbol("A(rect)")
 
 		# Initialise get_properties()
 		__l = funClasses.Length()
 		__w = funClasses.Length()
 		__l.set_name("Length")
 		__w.set_name("Width")
+		__l.set_symbol("l")
+		__w.set_symbol("w")
 
 		# Add to get_properties()
 		self.add_property(__l)
@@ -72,6 +78,7 @@ class SquarePerimeter(RectanglePerimeter):
 
 		# Set defaults
 		self.set_name("Perimeter of Square")
+		self.set_symbol("P(square)")
 
 	def try_set_value(self, *args):
 		# Try to calculate a value
@@ -86,6 +93,7 @@ class SquareArea(RectangleArea):
 
 		# Set defaults
 		self.set_name("Area of Square")
+		self.set_symbol("A(square)")
 
 	def try_set_value(self, *args):
 		# Try to calculate a value

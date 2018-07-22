@@ -5,8 +5,7 @@ from funClasses import DEFAULT_FLOAT_FORMAT
 def process_selection(xObject, ignore = False):
 	"""Receive input from primitive or force Composite type to receive input (ignore = True) or iterate through properties to set values"""
 
-	valInput = None
-	valid = False
+	valInput, valid = None, False
 
 	# If the object is a primitive (or forced), receive value as a primitive
 	if ((isinstance(xObject, funClasses.Composite) == False) or (ignore == True)):
@@ -42,33 +41,11 @@ def process_selection(xObject, ignore = False):
 		xObject.try_set_value()
 
 
-def print_inline(xObject=None):
-	"""Print a line for either a primitive value or calculated value"""
+def print_formula(xObject):
+	left_side = xObject.get_symbol()
+	right_side = str(xObject.get_value()) + " " + xObject.get_unit()
 
-	outputStr = None
-	tempLst = list()
-
-	# Test if it is Composite type
-	if (isinstance(xObject, funClasses.Composite)):
-		tempLst = [(property.get_value(), property.get_name()) for property in xObject.get_properties() 
-		if (property.get_value() != None)]
-
-	# Format the string if calculated from its properties
-	if (len(tempLst) > 0):
-		outputStr = "Calculated ("
-		
-		for (value, name) in tempLst:
-			outputStr += name + "=" + DEFAULT_FLOAT_FORMAT.format(value) + ","
-		
-		outputStr += "): "
-	else:
-		outputStr = "Input from value: "
-	
-	# Format and display answer
-	outputStr += "\n" + DEFAULT_FLOAT_FORMAT.format(xObject.get_value())
-	outputStr += " (" + xObject.get_unit() + ")"
-
-	print(outputStr)
+	print(left_side + " = " + right_side)
 
 
 def main_menu(objTypes):
@@ -101,7 +78,7 @@ def main_menu(objTypes):
 
 	# Print answer
 	print("## Answer: ")
-	print_inline(objects[usrInput])
+	print_formula(objects[usrInput])
 	print("##")
 
 	# Repeat

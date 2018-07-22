@@ -6,6 +6,36 @@ import funClasses, rectangularFigures
 runTest = (5,)
 testsDict = {}
 
+
+def print_inline(xObject):
+	"""Print a line for either a primitive value or calculated value"""
+
+	outputStr = None
+	tempLst = list()
+
+	# Test if it is Composite type
+	if (isinstance(xObject, funClasses.Composite)):
+		tempLst = [(property.get_value(), property.get_name()) for property in xObject.get_properties() 
+		if (property.get_value() != None)]
+
+	# Format the string if calculated from its properties
+	if (len(tempLst) > 0):
+		outputStr = "Calculated ("
+		
+		for (value, name) in tempLst:
+			outputStr += name + "=" + DEFAULT_FLOAT_FORMAT.format(value) +  ","
+		
+		outputStr += "): "
+	else:
+		outputStr = "Input from value: "
+	
+	# Format and display answer
+	outputStr += "\n" + DEFAULT_FLOAT_FORMAT.format(xObject.get_value())
+	outputStr += " (" + xObject.get_unit() + ")"
+
+	print(outputStr)
+
+
 # Main Block
 print("ARTEM'S TESTS")
 def do_test_1():
