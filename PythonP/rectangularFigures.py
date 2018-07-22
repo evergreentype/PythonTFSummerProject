@@ -72,7 +72,7 @@ class RectangleArea(funClasses.Area):
 
 class SquarePerimeter(RectanglePerimeter):
 	def __init__(self):
-		"""Initialise using the rectangle's class but remove the width (b) property"""
+		"""Initialise using the rectangle's class but remove the width property"""
 		super(SquarePerimeter, self).__init__()
 		self.remove_property(self.get_properties()[1])
 
@@ -87,7 +87,7 @@ class SquarePerimeter(RectanglePerimeter):
 
 class SquareArea(RectangleArea):
 	def __init__(self):
-		"""Initialise using the rectangle's class but remove the width (b) property"""
+		"""Initialise using the rectangle's class but remove the width property"""
 		super(SquareArea, self).__init__()
 		self.remove_property(self.get_properties()[1])
 
