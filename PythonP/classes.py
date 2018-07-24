@@ -18,7 +18,7 @@ class Math_Obj:
 			circle=Circle()
 			if Circle.radius==0:
 				print('input radius: ')
-				Circle.radius=int(input())
+				Circle.radius=float(input())
 
 			if switch:
 				return circle.area()
@@ -30,9 +30,9 @@ class Math_Obj:
 			parallelogram=Parallelogram()
 			if Parallelogram.base==0:
 				print('input base: ')
-				Parallelogram.base=int(input())
+				Parallelogram.base=float(input())
 				print('input height: ')
-				Parallelogram.height=int(input())
+				Parallelogram.height=float(input())
 			if switch:
 				return parallelogram.area()
 			else:
@@ -43,18 +43,18 @@ class Math_Obj:
 			triangle=Triangle()
 			if Triangle.side1==0:
 				print('input base: ')
-				Triangle.side1=int(input())
+				Triangle.side1=float(input())
 				print('input height: ')
-				Triangle.height=int(input())
+				Triangle.height=float(input())
 
 			
 			if Triangle.side2==0:
 				sw1=True
 				while sw1:
 					print('input side2: ')
-					Triangle.side2=int(input())
+					Triangle.side2=float(input())
 					print('input side3: ')
-					Triangle.side3=int(input())
+					Triangle.side3=float(input())
 					if Triangle.side1+Triangle.side2>Triangle.side3 and Triangle.side2+Triangle.side3>Triangle.side1 and Triangle.side1+Triangle.side3>Triangle.side2:
 						sw1=False
 					else:
