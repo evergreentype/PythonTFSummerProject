@@ -58,14 +58,15 @@ class MathObject:
 
 
 class Composite:
-	"""Base abstract class that identifies composite objects (objects with properties of primitives).
+	"""Base abstract class that identifies composite objects (objects with properties adn expressions).
 
-	Supports adding and removing elements for the list of properties. It is not supposed to be initialised directly"""
+	Supports adding and removing elements for the list of properties and expressions. It is not supposed to be initialised directly"""
 
 	def __init__(self):
+		# A list that consists of other MathObject or Composite objects
 		self.__properties = []
 
-		# A list that consists of dictionaries of expressions
+		# A list that consists of Expression objects
 		self.__expressions = []
 
 	# Built-in methods
@@ -84,7 +85,7 @@ class Composite:
 		return self.__properties
 
 	def add_expression(self, expr):
-		"""Add an expression object to Expressions list"""
+		"""Add an Expression object to Expressions list"""
 		self.__expressions.append(expr)
 
 	def remove_expression(self, expr):
@@ -104,6 +105,7 @@ class CompositeMathObject(Composite, MathObject):
 	It is not supposed to be initialised directly"""
 
 	def try_set_value(self, *args):
+		"""Implement calculating a value from properties"""
 		raise NotImplementedError("Must implement method assign_properties(self, *args)")
 
 

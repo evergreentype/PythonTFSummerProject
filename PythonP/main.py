@@ -47,15 +47,15 @@ def process_selection(xObject, ignore = False, level = 0):
 			raise Exception("failed to set value to object: " + xObject.get_name() + str(xObject.get_value()) + 
 				"! Properties: " + xObject.get_properties()[0].get_name() + ": " +str(xObject.get_properties()[0].get_value()) +" " +
 				xObject.get_properties()[1].get_name() + ": " +str(xObject.get_properties()[1].get_value()))
-		print("expr number: " +str(expressionResult))
+
 		# Print answer
 		if (level == 0):
 			return expressionResult
 
 
 def print_answer(xObject, xExprNumber=None):
-	left_side, middle_expr_symb, middle_expr_float, right_side = '','','',''
-
+	left_side, middle_expr_symb, middle_expr_float, right_side = None, None, None, None
+	
 	# Compose the left part
 	left_side = xObject.get_symbol()
 
@@ -72,7 +72,23 @@ def print_answer(xObject, xExprNumber=None):
 	right_side = "{answer:{Format}}".format(answer=xObject.get_value(), Format=DEFAULT_FLOAT_FORMAT) + " " + xObject.get_unit()
 
 	# Print
-	print(left_side + " = " + middle_expr_symb + " = " + middle_expr_float + " = " + right_side)
+	answerStr = ''
+	if (left_side != None):
+		answerStr += left_side
+		answerStr += " = "
+
+	if (middle_expr_symb != None):
+		answerStr += middle_expr_symb
+		answerStr += " = "
+
+	if (middle_expr_float != None):
+		answerStr += middle_expr_float
+		answerStr += " = "
+
+	if (right_side != None):
+		answerStr += right_side
+
+	print(answerStr)
 
 
 def main_menu(objTypes):
