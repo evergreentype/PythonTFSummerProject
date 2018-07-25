@@ -2,7 +2,7 @@ import funClasses
 from funClasses import DEFAULT_NEGATIVE_VALUE, DEFAULT_NAME
 
 
-# CLASSES
+# FUNCTIONAL CLASSES
 class RectanglePerimeter(funClasses.Perimeter):
 	"""Perimeter implementation for a rectangle figure"""
 
@@ -14,7 +14,7 @@ class RectanglePerimeter(funClasses.Perimeter):
 		self.set_name("Perimeter of Rectangle")
 		self.set_symbol("P(rect)")
 
-		# Initialise properties
+		# Add properties
 		__l = funClasses.Length()
 		__w = funClasses.Length()
 		__l.set_name("Length")
@@ -22,13 +22,23 @@ class RectanglePerimeter(funClasses.Perimeter):
 		__l.set_symbol("l")
 		__w.set_symbol("w")
 
-		# Add to properties
 		self.add_property(__l)
 		self.add_property(__w)
 
+		# Add expression
+		__expr0 = funClasses.Expression(
+			expressionStr = "2 * ({l:{Format}} + {w:{Format}})",
+			**{'l':self.get_properties()[0], 'w':self.get_properties()[1]})
+
+		self.add_expression(__expr0)
+
+
 	def try_set_value(self, *args):
 		# Try to calculate a value
-		return self.set_value(self.calculate_rect_perimeter(self.get_properties()[0], self.get_properties()[1]))
+		if (self.set_value(self.calculate_rect_perimeter(self.get_properties()[0], self.get_properties()[1]))):
+			return 0
+
+		return -1
 
 	def calculate_rect_perimeter(self, _l, _w):
 		"""Standard formula for calculating a rectangle's perimeter"""
@@ -47,7 +57,7 @@ class RectangleArea(funClasses.Area):
 		self.set_name("Area of Rectangle")
 		self.set_symbol("A(rect)")
 
-		# Initialise get_properties()
+		# Add properties
 		__l = funClasses.Length()
 		__w = funClasses.Length()
 		__l.set_name("Length")
@@ -55,13 +65,21 @@ class RectangleArea(funClasses.Area):
 		__l.set_symbol("l")
 		__w.set_symbol("w")
 
-		# Add to get_properties()
 		self.add_property(__l)
 		self.add_property(__w)
 
+		# Add expression
+		__expr0 = funClasses.Expression(
+			expressionStr = "{l:{Format}} * {w:{Format}}",
+			**{'l':self.get_properties()[0], 'w':self.get_properties()[1]})
+		self.add_expression(__expr0)
+
 	def try_set_value(self, *args):
 		# Try to calculate a value
-		return self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[1]))
+		if (self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[1]))):
+			return 0
+
+		return -1
 
 	def calculate_rect_area(self, _l, _w):
 		"""Standard formula for calculating a rectangle's area"""
@@ -69,6 +87,7 @@ class RectangleArea(funClasses.Area):
 		w = _w.get_value()
 
 		return l * w
+
 
 class SquarePerimeter(RectanglePerimeter):
 	def __init__(self):
@@ -80,9 +99,21 @@ class SquarePerimeter(RectanglePerimeter):
 		self.set_name("Perimeter of Square")
 		self.set_symbol("P(square)")
 
+		# Add expression
+		self.remove_expression(self.get_expressions()[0])
+		
+		__expr0 = funClasses.Expression(
+			expressionStr = "4 * {l:{Format}}",
+			**{'l':self.get_properties()[0]})
+		self.add_expression(__expr0)
+
+
 	def try_set_value(self, *args):
 		# Try to calculate a value
-		return self.set_value(self.calculate_rect_perimeter(self.get_properties()[0], self.get_properties()[0]))
+		if (self.set_value(self.calculate_rect_perimeter(self.get_properties()[0], self.get_properties()[0]))):
+			return 0
+
+		return -1
 
 
 class SquareArea(RectangleArea):
@@ -95,9 +126,20 @@ class SquareArea(RectangleArea):
 		self.set_name("Area of Square")
 		self.set_symbol("A(square)")
 
+		# Add expression
+		self.remove_expression(self.get_expressions()[0])
+		
+		__expr0 = funClasses.Expression(
+			expressionStr = "{l:{Format}} * {l:{Format}}",
+			**{'l':self.get_properties()[0]})
+		self.add_expression(__expr0)
+
 	def try_set_value(self, *args):
 		# Try to calculate a value
-		return self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[0]))
+		if (self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[0]))):
+			return 0
+
+		return -1
 
 # GLOBAL
 # List of available classes as types

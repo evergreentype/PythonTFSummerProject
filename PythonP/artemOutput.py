@@ -3,7 +3,7 @@ import funClasses, rectangularFigures
 # STRUCTURE TAKEN FROM Tutorial/artem.py and Tutorial/artemTest.py
 
 # Run the tests
-runTest = (5,)
+runTest = (6,)
 testsDict = {}
 
 
@@ -23,14 +23,14 @@ def print_inline(xObject):
 		outputStr = "Calculated ("
 		
 		for (value, name) in tempLst:
-			outputStr += name + "=" + DEFAULT_FLOAT_FORMAT.format(value) +  ","
+			outputStr += name + "=" + "{:.2f}".format(value) +  ","
 		
 		outputStr += "): "
 	else:
 		outputStr = "Input from value: "
 	
 	# Format and display answer
-	outputStr += "\n" + DEFAULT_FLOAT_FORMAT.format(xObject.get_value())
+	outputStr += "\n" + "{:.2f}".format(xObject.get_value())
 	outputStr += " (" + xObject.get_unit() + ")"
 
 	print(outputStr)
@@ -87,20 +87,64 @@ def do_test_4():
 testsDict.update({4: do_test_4})
 
 def do_test_5():
-	"""Test square's area"""
+	"""Does not work after updates"""
 	testVal1 = rectangularFigures.RectanglePerimeter()
 	testVal2 = rectangularFigures.RectangleArea()
 	testVal3 = rectangularFigures.SquarePerimeter()
 
-	# testVal1.set_value(False, 4, 7)
-	# testVal2.set_value(True, 13)
-	# testVal3.set_value(False, 44)
+	testVal1.set_value(False, 4, 7)
+	testVal2.set_value(True, 13)
+	testVal3.set_value(False, 44)
 
-	inline_print(testVal1)
-	inline_print(testVal2)
-	inline_print(testVal3)
+	print_inline(testVal1)
+	print_inline(testVal2)
+	print_inline(testVal3)
 testsDict.update({5: do_test_5})
 
+
+def do_test_6():
+	"""Test string formatting"""
+
+	# P(rect) = 2 * (l + w)
+	# From values: 2 * (length + width)
+	# From values: 2 * (4 + 5)
+
+	strTest = "{len:{Format}} + {wid:{Format}}"
+	lengthStr = "length"
+	length = 3.333333333333
+	widthStr = "width"
+	width = 4.44444444444
+	floatFormat = "{:.2f}"
+
+	isStr = True
+	if (isStr):
+		floatFormat = ""
+	else:
+		floatFormat = ".2f"
+
+	#print(strTest.format(wid = width, l = length, Format = floatFormat))
+	#print(strTest.format(wid = widthStr, l = lengthStr, Format = floatFormat))
+
+	tuples = []
+	tupItem = {"expressionStr":strTest, "l":length, "w":width}
+	tuples.append(tupItem)
+	print(tuples[0])
+
+	def print_str_form(xStr, **xFormatSp):
+		xFormatSp["Format"] = ""
+		print(xStr.format(**xFormatSp))
+
+	dictTemp = {'len':widthStr, 'wid':lengthStr, 'anDict': {1: "he", 2:"be"}}
+
+	dictVals = [val for val in dictTemp.values()]
+	print("dictVals: ")
+	print(dictVals)
+
+	print("Print str form:")
+	print_str_form(strTest, **dictTemp)
+
+
+testsDict.update({6: do_test_6})
 
 # Print methods
 def start_of_part_print(testNumber):

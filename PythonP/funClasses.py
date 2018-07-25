@@ -1,5 +1,6 @@
 import math
 
+# Shorter from Fundamental Classes
 
 # GLOBAL CONSTANTS
 # Global constant for initial value initialisation for positive values
@@ -9,9 +10,10 @@ DEFAULT_NAME = "Value"
 # Global dictonary for setting units
 DEFAULT_UNITS = {1:"units", 2:"units squared"}
 # Global constant for number formatting
-DEFAULT_FLOAT_FORMAT = "{:.2f}"
+DEFAULT_FLOAT_FORMAT = ".2f"
 
-# CLASSES
+
+# CORE CLASSES
 class MathObject:
 	"""Base abstract class inherited by all primitives.
 
@@ -63,19 +65,85 @@ class Composite:
 	def __init__(self):
 		self.__properties = []
 
-	def add_property(self, val):
-		self.__properties.append(val)
+		# A list that consists of dictionaries of expressions
+		self.__expressions = []
 
-	def remove_property(self, val):
-		"""Remove an element by its value, returns if it was successful"""
-		if val in self.__properties:
-			self.__properties.remove(val)
-			return True
-		else: 
-			return False
+	# Built-in methods
+	def add_property(self, prop):
+		"""Pass an object of any derived class from either MathObject or Composite"""
+		self.__properties.append(prop)
+
+	def remove_property(self, prop):
+		"""Remove an element by its value, raise exception if failed"""
+		try:
+			self.__properties.remove(prop)
+		except Exception: 
+			raise Exception("Could not remove from Properties list")
 
 	def get_properties(self):
 		return self.__properties
+
+	def add_expression(self, expr):
+		"""Add an expression object to Expressions list"""
+		self.__expressions.append(expr)
+
+	def remove_expression(self, expr):
+		"""Remove an element by its value, raise exception if failed"""
+		try:
+			self.__expressions.remove(expr)
+		except Exception:
+			raise Exception("Could not remove from Expressions list")
+		
+	def get_expressions(self):
+		return self.__expressions
+
+
+class Expression:
+	def __init__(self, expressionStr, xName="By formula", xDesc="", **epxressionKeys):
+		"""Set values when initialising the object"""
+
+		# Specifying name is recommended if more than 1 expression associate to the same object
+		self.name = xName
+
+		# Add description for additional clarity
+		self.desc = xDesc
+
+		"""Write mathematical expression in the "exression string"
+		Specify names of the variables with "key values" (see string specifier below)
+		After each "key value," put {Format} to use built-in formatting for numbers and strings 
+		expression_dict['expression string'] = expressionStr"""
+		self.expr_str = expressionStr
+
+		"""Bind implementation independent "key values" to object references
+		'key values' must correspond to those used in the expression string attribute"""
+		self.keys = epxressionKeys
+
+	def get_properties(self):
+		return [value for value in (self.keys).values()]
+
+	def get_symbolic(self):
+		exprKeys = (self.keys).copy()
+
+		for key, value in exprKeys.items():
+			# Replace each value in the dictionary with symbols
+			exprKeys[key] = value.get_symbol()
+		else:
+			# Remove format
+			exprKeys['Format'] = ''
+
+		return exprKeys
+
+	def get_values(self):
+		exprKeys = (self.keys).copy()
+
+		for key, value in exprKeys.items():
+			# Replace each value in the dictionary with symbols
+			exprKeys[key] = value.get_value()
+		else:
+			# Specify format
+			exprKeys['Format'] = DEFAULT_FLOAT_FORMAT
+
+		return exprKeys
 
 
 class CompositeMathObject(Composite, MathObject):

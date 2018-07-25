@@ -9,7 +9,7 @@ def process_selection(xObject, ignore = False):
 
 	# If the object is a primitive (or forced), receive value as a primitive
 	if ((isinstance(xObject, funClasses.Composite) == False) or (ignore == True)):
-		print(xObject.get_name() + " (" + xObject.get_unit() + "):")
+		print(xObject.get_symbol() + " - " + xObject.get_name() + " (" + xObject.get_unit() + "):")
 		while valid != True:
 			valInput = input("-> ")
 			valid = xObject.set_value(valInput)
@@ -17,15 +17,18 @@ def process_selection(xObject, ignore = False):
 		# Break recursion
 		return
 
-	# If the object is Composite, print additional options
-	print("### Choose:")
-	print("1: input from value")
-	print("2: calculate (from " +  ", ".join([property.get_name() for property in xObject.get_properties()]) + ")")
+	# If the object is Composite, print options
+	print("## Find " + xObject.get_name() + ":")
+	print("1: From value")
+	i = 2
+	for expression in xObject.get_expressions():
+		print("{:d}".format(i) + ": " + expression.name + ": " + expression.expr_str.format(**(expression.get_symbolic())))
+		i += 1
 
 	usrInput = -1
 	while usrInput not in range(1, 3):
 		usrInput = int(input("-> "))
-	print("###")
+	print("## Now enter values:")
 
 	# Input from value is selected
 	if (usrInput == 1):
@@ -38,18 +41,36 @@ def process_selection(xObject, ignore = False):
 			process_selection(property, False)
 
 		# Try to set the Composite value
-		xObject.try_set_value()
+		expressionResult = xObject.try_set_value()
+
+		if (expressionResult == -1):
+			return
+
+		# Print answer
+		print("## Answer: ")
+		print_answer(xObject, expressionResult)
+		print("##")
 
 
-def print_formula(xObject):
+def print_answer(xObject, xExprNumber):
+	# Compose the left part
 	left_side = xObject.get_symbol()
-	right_side = DEFAULT_FLOAT_FORMAT.format(xObject.get_value()) + " " + xObject.get_unit()
 
-	print(left_side + " = " + right_side)
+	expr = xObject.get_expressions()[xExprNumber]
+
+	# Compose the middle part
+	middle_expr_symb = expr.expr_str.format(**(expr.get_symbolic()))
+	middle_expr_float = expr.expr_str.format(**(expr.get_values()))
+
+	# Cmpose the right part
+	right_side = "{answer:{Format}}".format(answer=xObject.get_value(), Format=DEFAULT_FLOAT_FORMAT) + " " + xObject.get_unit()
+
+	# Print
+	print(left_side + " = " + middle_expr_symb + " = " + middle_expr_float + " = " + right_side)
 
 
 def main_menu(objTypes):
-	"""Print the main menu while not terminated by input 0"""
+	"""Print the main menu while not terminated by input - 0"""
 
 	print("# Select from the options:")
 	# Instantiate and print all options
@@ -73,13 +94,7 @@ def main_menu(objTypes):
 		usrInput -= 1
 
 	# Print find options
-	print("## To find " + objects[usrInput].get_name() + ": ")
 	process_selection(objects[usrInput])
-
-	# Print answer
-	print("## Answer: ")
-	print_formula(objects[usrInput])
-	print("##")
 
 	# Repeat
 	print("#\n")
