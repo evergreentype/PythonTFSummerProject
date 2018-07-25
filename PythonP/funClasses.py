@@ -111,7 +111,7 @@ class Length(MathObject):
 	"""1D primitive"""
 
 	def __init__(self):
-		super(Length, self).__init__()
+		MathObject.__init__(self)
 
 		self.__value = DEFAULT_NEGATIVE_VALUE
 		self.set_name("Length")
@@ -152,7 +152,7 @@ class Perimeter(CompositeMathObject, Length):
 	"""Inherits properties of a one-dimentional line, but is able to have properties"""
 	
 	def __init__(self):
-		super(CompositeMathObject, self).__init__()
+		CompositeMathObject.__init__(self)
 
 		self.set_value(DEFAULT_NEGATIVE_VALUE)
 		self.set_name(DEFAULT_NAME)
@@ -164,7 +164,7 @@ class Area(CompositeMathObject, Length):
 	"""Abstract 2D concept"""
 
 	def __init__(self):
-		super(CompositeMathObject, self).__init__()
+		CompositeMathObject.__init__(self)
 
 		self.set_value(DEFAULT_NEGATIVE_VALUE)
 		self.set_name(DEFAULT_NAME)
@@ -176,7 +176,7 @@ class Volume(CompositeMathObject, Length):
 	"""Abstract 3D concept"""
 
 	def __init__(self):
-		super(CompositeMathObject, self).__init__()
+		CompositeMathObject.__init__(self)
 
 		self.set_value(DEFAULT_NEGATIVE_VALUE)
 		self.set_name(DEFAULT_NAME)
