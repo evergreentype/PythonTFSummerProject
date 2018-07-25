@@ -45,7 +45,10 @@ class RectanglePerimeter(funClasses.Perimeter):
 		l = _l.get_value()
 		w = _w.get_value()
 
-		return 2 * (l + w)
+		try:
+			return 2 * (l + w)
+		except:
+			return DEFAULT_NEGATIVE_VALUE
 
 
 class RectangleArea(funClasses.Area):
@@ -86,7 +89,10 @@ class RectangleArea(funClasses.Area):
 		l = _l.get_value()
 		w = _w.get_value()
 
-		return l * w
+		try:
+			return w * h
+		except:
+			return DEFAULT_NEGATIVE_VALUE
 
 
 class SquarePerimeter(RectanglePerimeter):
@@ -128,7 +134,7 @@ class SquareArea(RectangleArea):
 
 		# Add expression
 		self.remove_expression(self.get_expressions()[0])
-		
+
 		__expr0 = funClasses.Expression(
 			expressionStr = "{l:{Format}} * {l:{Format}}",
 			**{'l':self.get_properties()[0]})
@@ -141,11 +147,89 @@ class SquareArea(RectangleArea):
 
 		return -1
 
+
+class CuboidVolume(funClasses.Volume):
+	def __init__(self):
+		"""Initialise length and width and add them to get_properties()"""
+		super(CuboidVolume, self).__init__()
+
+		# Set defaults
+		self.set_name("Volume of Cubiod")
+		self.set_symbol("V(cuboid)")
+
+		# Add properties
+		__l = funClasses.Length()
+		__l.set_name("Length")
+		__l.set_symbol("l")
+
+		__w = funClasses.Length()
+		__w.set_name("Width")
+		__w.set_symbol("w")
+
+		__h = funClasses.Length()
+		__h.set_name("Height")
+		__h.set_symbol("h")
+
+		__base = RectangleArea()
+		__base.set_name("Base Area")
+		__base.set_symbol("A(base)")
+
+		self.add_property(__l)
+		self.add_property(__w)
+		self.add_property(__h)
+		self.add_property(__base)
+
+		# Add expressions
+		__expr0 = funClasses.Expression(
+			expressionStr = "{l:{Format}} * {w:{Format}} * {h:{Format}}",
+			**{'l':self.get_properties()[0], 'w':self.get_properties()[1], 'h':self.get_properties()[2]})
+		self.add_expression(__expr0)
+
+		__expr1 = funClasses.Expression(
+			expressionStr = "{base:{Format}} * {h:{Format}}",
+			**{'base':self.get_properties()[3], 'h':self.get_properties()[2]})
+		self.add_expression(__expr1)
+
+	def try_set_value(self, *args):
+		# Try to calculate a value
+		# From sides
+		if (self.set_value(self.calculate_cuboid_volume(self.get_properties()[0], self.get_properties()[1], self.get_properties()[2]))):
+			return 0
+
+		# From base
+		if (self.set_value(self.calculate_cuboid_volume_2(self.get_properties()[3], self.get_properties()[2]))):
+			return 1
+
+		return -1
+
+	def calculate_cuboid_volume(self, _l, _w, _h):
+		"""Calculate from the sides"""
+		l = _l.get_value()
+		w = _w.get_value()
+		h = _h.get_value()
+
+		try:
+			return l * w * h
+		except:
+			return DEFAULT_NEGATIVE_VALUE
+
+	def calculate_cuboid_volume_2(self, _base, _h):
+		"""Calculate from the sides"""
+		b = _base.get_value()
+		h = _h.get_value()
+
+		try:
+			return b * h
+		except:
+			return DEFAULT_NEGATIVE_VALUE
+
+
 # GLOBAL
 # List of available classes as types
 AVAIL_CLASSES = [
 RectanglePerimeter,
 RectangleArea,
 SquarePerimeter,
-SquareArea
+SquareArea,
+CuboidVolume
 ]

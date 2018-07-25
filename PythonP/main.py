@@ -26,18 +26,18 @@ def process_selection(xObject, ignore = False):
 		i += 1
 
 	usrInput = -1
-	while usrInput not in range(1, 3):
+	while usrInput not in range(1, i):
 		usrInput = int(input("-> "))
-	print("## Now enter values:")
+	print("## Now enter value(s):")
 
 	# Input from value is selected
 	if (usrInput == 1):
 		# Force Composite object to receive a primitive
 		process_selection(xObject, True)
 	# Input by calculation was selected
-	elif (usrInput == 2):
+	else:
 		# Iterative through the properties and set their values
-		for property in xObject.get_properties():
+		for property in xObject.get_expressions()[usrInput-2].get_properties():
 			process_selection(property, False)
 
 		# Try to set the Composite value

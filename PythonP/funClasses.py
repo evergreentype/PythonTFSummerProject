@@ -8,7 +8,7 @@ DEFAULT_NEGATIVE_VALUE = None
 # Global constant for initial name initialisation
 DEFAULT_NAME = "Value"
 # Global dictonary for setting units
-DEFAULT_UNITS = {1:"units", 2:"units squared"}
+DEFAULT_UNITS = {1:"units", 2:"units squared", 3:"units cubed"}
 # Global constant for number formatting
 DEFAULT_FLOAT_FORMAT = ".2f"
 
@@ -98,54 +98,6 @@ class Composite:
 		return self.__expressions
 
 
-class Expression:
-	def __init__(self, expressionStr, xName="By formula", xDesc="", **epxressionKeys):
-		"""Set values when initialising the object"""
-
-		# Specifying name is recommended if more than 1 expression associate to the same object
-		self.name = xName
-
-		# Add description for additional clarity
-		self.desc = xDesc
-
-		"""Write mathematical expression in the "exression string"
-		Specify names of the variables with "key values" (see string specifier below)
-		After each "key value," put {Format} to use built-in formatting for numbers and strings 
-		expression_dict['expression string'] = expressionStr"""
-		self.expr_str = expressionStr
-
-		"""Bind implementation independent "key values" to object references
-		'key values' must correspond to those used in the expression string attribute"""
-		self.keys = epxressionKeys
-
-	def get_properties(self):
-		return [value for value in (self.keys).values()]
-
-	def get_symbolic(self):
-		exprKeys = (self.keys).copy()
-
-		for key, value in exprKeys.items():
-			# Replace each value in the dictionary with symbols
-			exprKeys[key] = value.get_symbol()
-		else:
-			# Remove format
-			exprKeys['Format'] = ''
-
-		return exprKeys
-
-	def get_values(self):
-		exprKeys = (self.keys).copy()
-
-		for key, value in exprKeys.items():
-			# Replace each value in the dictionary with symbols
-			exprKeys[key] = value.get_value()
-		else:
-			# Specify format
-			exprKeys['Format'] = DEFAULT_FLOAT_FORMAT
-
-		return exprKeys
-
-
 class CompositeMathObject(Composite, MathObject):
 	"""Base abstract class that combines a primitive (i.e. has a value) and composite (i.e. has properties) types.
 
@@ -167,6 +119,9 @@ class Length(MathObject):
 
 	def set_value(self, val):
 		"""Accepts a single positive value"""
+
+		if (val == None):
+			return False
 
 		if (self.validate_value(val)):
 			self.__value = float(val)
@@ -217,4 +172,61 @@ class Area(CompositeMathObject, Length):
 		self.set_unit(DEFAULT_UNITS[2])
 
 
+class Volume(CompositeMathObject, Length):
+	"""Abstract 3D concept"""
 
+	def __init__(self):
+		super(CompositeMathObject, self).__init__()
+
+		self.set_value(DEFAULT_NEGATIVE_VALUE)
+		self.set_name(DEFAULT_NAME)
+		self.set_symbol("V")
+		self.set_unit(DEFAULT_UNITS[3])
+
+
+class Expression:
+	def __init__(self, expressionStr, xName="By formula", xDesc="", **epxressionKeys):
+		"""Set values when initialising the object"""
+
+		# Specifying name is recommended if more than 1 expression associate to the same object
+		self.name = xName
+
+		# Add description for additional clarity
+		self.desc = xDesc
+
+		"""Write mathematical expression in the "exression string"
+		Specify names of the variables with "key values" (see string specifier below)
+		After each "key value," put {Format} to use built-in formatting for numbers and strings 
+		expression_dict['expression string'] = expressionStr"""
+		self.expr_str = expressionStr
+
+		"""Bind implementation independent "key values" to object references
+		'key values' must correspond to those used in the expression string attribute"""
+		self.keys = epxressionKeys
+
+	def get_properties(self):
+		return [value for value in (self.keys).values()]
+
+	def get_symbolic(self):
+		exprKeys = (self.keys).copy()
+
+		for key, value in exprKeys.items():
+			# Replace each value in the dictionary with symbols
+			exprKeys[key] = value.get_symbol()
+		else:
+			# Remove format
+			exprKeys['Format'] = ''
+
+		return exprKeys
+
+	def get_values(self):
+		exprKeys = (self.keys).copy()
+
+		for key, value in exprKeys.items():
+			# Replace each value in the dictionary with symbols
+			exprKeys[key] = value.get_value()
+		else:
+			# Specify format
+			exprKeys['Format'] = DEFAULT_FLOAT_FORMAT
+
+		return exprKeys
