@@ -2,14 +2,14 @@ import funClasses, rectangularFigures
 from funClasses import DEFAULT_FLOAT_FORMAT
 
 # FUNCTIONS
-def process_selection(xObject, ignore = False):
+def process_selection(xObject, ignore = False, level = 0):
 	"""Receive input from primitive or force Composite type to receive input (ignore = True) or iterate through properties to set values"""
 
 	valInput, valid = None, False
 
 	# If the object is a primitive (or forced), receive value as a primitive
 	if ((isinstance(xObject, funClasses.Composite) == False) or (ignore == True)):
-		print(xObject.get_symbol() + " - " + xObject.get_name() + " (" + xObject.get_unit() + "):")
+		print(xObject.get_name() + ", " + xObject.get_symbol() + " (" + xObject.get_unit() + "):")
 		while valid != True:
 			valInput = input("-> ")
 			valid = xObject.set_value(valInput)
@@ -33,36 +33,40 @@ def process_selection(xObject, ignore = False):
 	# Input from value is selected
 	if (usrInput == 1):
 		# Force Composite object to receive a primitive
-		process_selection(xObject, True)
+		process_selection(xObject, True, 1)
 	# Input by calculation was selected
 	else:
 		# Iterative through the properties and set their values
 		for property in xObject.get_expressions()[usrInput-2].get_properties():
-			process_selection(property, False)
+			process_selection(property, False, 1)
 
 		# Try to set the Composite value
 		expressionResult = xObject.try_set_value()
 
 		if (expressionResult == -1):
-			return
-
+			raise Exception("failed to set value to object: " + xObject.get_name() + str(xObject.get_value()) + 
+				"! Properties: " + xObject.get_properties()[0].get_name() + ": " +str(xObject.get_properties()[0].get_value()) +" " +
+				xObject.get_properties()[1].get_name() + ": " +str(xObject.get_properties()[1].get_value()))
+		print("expr number: " +str(expressionResult))
 		# Print answer
-		print("## Answer: ")
-		print_answer(xObject, expressionResult)
-		print("##")
+		if (level == 0):
+			return expressionResult
 
 
-def print_answer(xObject, xExprNumber):
+def print_answer(xObject, xExprNumber=None):
+	left_side, middle_expr_symb, middle_expr_float, right_side = '','','',''
+
 	# Compose the left part
 	left_side = xObject.get_symbol()
 
-	expr = xObject.get_expressions()[xExprNumber]
+	if ((isinstance(xObject, funClasses.Composite) == True) and (xExprNumber != None)):
+		expr = xObject.get_expressions()[xExprNumber]
 
-	# Compose the middle part
-	middle_expr_symb = expr.expr_str.format(**(expr.get_symbolic()))
+		# Compose the middle part
+		middle_expr_symb = expr.expr_str.format(**(expr.get_symbolic()))
 
-	expr.expr_str = expr.add_format(DEFAULT_FLOAT_FORMAT)
-	middle_expr_float = expr.expr_str.format(**(expr.get_values()))
+		expr.expr_str = expr.add_format(DEFAULT_FLOAT_FORMAT)
+		middle_expr_float = expr.expr_str.format(**(expr.get_values()))
 
 	# Cmpose the right part
 	right_side = "{answer:{Format}}".format(answer=xObject.get_value(), Format=DEFAULT_FLOAT_FORMAT) + " " + xObject.get_unit()
@@ -96,7 +100,11 @@ def main_menu(objTypes):
 		usrInput -= 1
 
 	# Print find options
-	process_selection(objects[usrInput])
+	expressionResult = process_selection(objects[usrInput])
+
+	print("## Answer: ")
+	print_answer(objects[usrInput], expressionResult)
+	print("##")
 
 	# Repeat
 	print("#\n")

@@ -32,7 +32,6 @@ class RectanglePerimeter(funClasses.Perimeter):
 
 		self.add_expression(__expr0)
 
-
 	def try_set_value(self, *args):
 		# Try to calculate a value
 		if (self.set_value(self.calculate_rect_perimeter(self.get_properties()[0], self.get_properties()[1]))):
