@@ -69,6 +69,9 @@ class Composite:
 		# A list that consists of Expression objects
 		self.__expressions = []
 
+		# Integer value
+		self.__expressionUsed = None
+
 	# Built-in methods
 	def add_property(self, prop):
 		"""Pass an object of any derived class from either MathObject or Composite"""

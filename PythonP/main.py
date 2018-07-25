@@ -41,16 +41,7 @@ def process_selection(xObject, ignore = False, level = 0):
 			process_selection(property, False, 1)
 
 		# Try to set the Composite value
-		expressionResult = xObject.try_set_value()
-
-		if (expressionResult == -1):
-			raise Exception("failed to set value to object: " + xObject.get_name() + str(xObject.get_value()) + 
-				"! Properties: " + xObject.get_properties()[0].get_name() + ": " +str(xObject.get_properties()[0].get_value()) +" " +
-				xObject.get_properties()[1].get_name() + ": " +str(xObject.get_properties()[1].get_value()))
-
-		# Print answer
-		if (level == 0):
-			return expressionResult
+		xObject.try_set_value()
 
 
 def print_answer(xObject, xExprNumber=None):
@@ -89,6 +80,9 @@ def print_answer(xObject, xExprNumber=None):
 		answerStr += right_side
 
 	print(answerStr)
+
+def fetch_expressions():
+	pass
 
 
 def main_menu(objTypes):

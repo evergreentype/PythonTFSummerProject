@@ -36,9 +36,9 @@ class RectanglePerimeter(funClasses.Perimeter):
 	def try_set_value(self, *args):
 		# Try to calculate a value
 		if (self.set_value(self.calculate_rect_perimeter(self.get_properties()[0], self.get_properties()[1]))):
-			return 0
+			self.__expressionUsed = 0
 
-		return -1
+		self.__expressionUsed = -1
 
 	def calculate_rect_perimeter(self, _l, _w):
 		"""Standard formula for calculating a rectangle's perimeter"""
@@ -82,9 +82,9 @@ class RectangleArea(funClasses.Area):
 	def try_set_value(self, *args):
 		# Try to calculate a value
 		if (DEFAULT_NEGATIVE_VALUE != self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[1]))):
-			return 0
+			self.__expressionUsed = 0
 
-		return -1
+		self.__expressionUsed = -1
 
 	def calculate_rect_area(self, _l, _w):
 		"""Standard formula for calculating a rectangle's area"""
@@ -119,9 +119,9 @@ class SquarePerimeter(RectanglePerimeter):
 	def try_set_value(self, *args):
 		# Try to calculate a value
 		if (self.set_value(self.calculate_rect_perimeter(self.get_properties()[0], self.get_properties()[0]))):
-			return 0
+			self.__expressionUsed = 0
 
-		return -1
+		self.__expressionUsed = -1
 
 
 class SquareArea(RectangleArea):
@@ -145,9 +145,9 @@ class SquareArea(RectangleArea):
 	def try_set_value(self, *args):
 		# Try to calculate a value
 		if (self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[0]))):
-			return 0
+			self.__expressionUsed = 0
 
-		return -1
+		self.__expressionUsed = -1
 
 
 class CuboidVolume(funClasses.Volume):
@@ -196,13 +196,13 @@ class CuboidVolume(funClasses.Volume):
 		# Try to calculate a value
 		# From sides
 		if (self.set_value(self.calculate_cuboid_volume(self.get_properties()[0], self.get_properties()[1], self.get_properties()[2]))):
-			return 0
+			self.__expressionUsed = 0
 
 		# From base
 		if (self.set_value(self.calculate_cuboid_volume_2(self.get_properties()[3], self.get_properties()[2]))):
-			return 1
+			self.__expressionUsed = 1
 
-		return -1
+		self.__expressionUsed = -1
 
 	def calculate_cuboid_volume(self, _l, _w, _h):
 		"""Calculate from the sides"""
