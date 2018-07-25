@@ -60,6 +60,8 @@ def print_answer(xObject, xExprNumber):
 
 	# Compose the middle part
 	middle_expr_symb = expr.expr_str.format(**(expr.get_symbolic()))
+
+	expr.expr_str = expr.add_format(DEFAULT_FLOAT_FORMAT)
 	middle_expr_float = expr.expr_str.format(**(expr.get_values()))
 
 	# Cmpose the right part

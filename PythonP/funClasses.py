@@ -195,9 +195,7 @@ class Expression:
 		self.desc = xDesc
 
 		"""Write mathematical expression in the "exression string"
-		Specify names of the variables with "key values" (see string specifier below)
-		After each "key value," put {Format} to use built-in formatting for numbers and strings 
-		expression_dict['expression string'] = expressionStr"""
+		Specify names of the variables with "key values" (see string specifier below)"""
 		self.expr_str = expressionStr
 
 		"""Bind implementation independent "key values" to object references
@@ -208,25 +206,29 @@ class Expression:
 		return [value for value in (self.keys).values()]
 
 	def get_symbolic(self):
+		"""Receive a dictionary with properties' symbols instead of objects"""
 		exprKeys = (self.keys).copy()
 
 		for key, value in exprKeys.items():
 			# Replace each value in the dictionary with symbols
 			exprKeys[key] = value.get_symbol()
-		else:
-			# Remove format
-			exprKeys['Format'] = ''
 
 		return exprKeys
 
 	def get_values(self):
+		"""Receive a dictionary with properties' values instead of objects"""
 		exprKeys = (self.keys).copy()
 
 		for key, value in exprKeys.items():
 			# Replace each value in the dictionary with symbols
 			exprKeys[key] = value.get_value()
-		else:
-			# Specify format
-			exprKeys['Format'] = DEFAULT_FLOAT_FORMAT
 
 		return exprKeys
+
+	def add_format(self, format_specifier):
+		"""Inserts format specifier that helps display numeric data"""
+
+		format_specifier += '}'
+		expr_str_format = self.expr_str.replace('}', ':{Format}'.format(Format=format_specifier))
+
+		return expr_str_format

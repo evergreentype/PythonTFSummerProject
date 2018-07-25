@@ -27,7 +27,7 @@ class RectanglePerimeter(funClasses.Perimeter):
 
 		# Add expression
 		__expr0 = funClasses.Expression(
-			expressionStr = "2 * ({l:{Format}} + {w:{Format}})",
+			expressionStr = "2 * ({l} + {w})",
 			**{'l':self.get_properties()[0], 'w':self.get_properties()[1]})
 
 		self.add_expression(__expr0)
@@ -73,7 +73,7 @@ class RectangleArea(funClasses.Area):
 
 		# Add expression
 		__expr0 = funClasses.Expression(
-			expressionStr = "{l:{Format}} * {w:{Format}}",
+			expressionStr = "{l} * {w}",
 			**{'l':self.get_properties()[0], 'w':self.get_properties()[1]})
 		self.add_expression(__expr0)
 
@@ -109,7 +109,7 @@ class SquarePerimeter(RectanglePerimeter):
 		self.remove_expression(self.get_expressions()[0])
 		
 		__expr0 = funClasses.Expression(
-			expressionStr = "4 * {l:{Format}}",
+			expressionStr = "4 * {l}",
 			**{'l':self.get_properties()[0]})
 		self.add_expression(__expr0)
 
@@ -136,7 +136,7 @@ class SquareArea(RectangleArea):
 		self.remove_expression(self.get_expressions()[0])
 
 		__expr0 = funClasses.Expression(
-			expressionStr = "{l:{Format}} * {l:{Format}}",
+			expressionStr = "{l} * {l}",
 			**{'l':self.get_properties()[0]})
 		self.add_expression(__expr0)
 
@@ -181,12 +181,12 @@ class CuboidVolume(funClasses.Volume):
 
 		# Add expressions
 		__expr0 = funClasses.Expression(
-			expressionStr = "{l:{Format}} * {w:{Format}} * {h:{Format}}",
+			expressionStr = "{l} * {w} * {h}",
 			**{'l':self.get_properties()[0], 'w':self.get_properties()[1], 'h':self.get_properties()[2]})
 		self.add_expression(__expr0)
 
 		__expr1 = funClasses.Expression(
-			expressionStr = "{base:{Format}} * {h:{Format}}",
+			expressionStr = "{base} * {h}",
 			**{'base':self.get_properties()[3], 'h':self.get_properties()[2]})
 		self.add_expression(__expr1)
 
