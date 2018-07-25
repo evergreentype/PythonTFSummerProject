@@ -3,7 +3,7 @@ import funClasses, rectangularFigures
 # STRUCTURE TAKEN FROM Tutorial/artem.py and Tutorial/artemTest.py
 
 # Run the tests
-runTest = (6,)
+runTest = (7,)
 testsDict = {}
 
 
@@ -142,9 +142,33 @@ def do_test_6():
 
 	print("Print str form:")
 	print_str_form(strTest, **dictTemp)
-
-
 testsDict.update({6: do_test_6})
+
+
+def do_test_7():
+	"""Debugging Area classes"""
+
+	testIns = rectangularFigures.RectangleArea()
+
+	print("RectangleArea object:")
+	print(testIns)
+	print("RectangleArea properties:")
+	print(testIns.get_properties())
+	print("RectangleArea expressions:")
+	print(testIns.get_expressions()[0].expr_str)
+
+	testIns.get_properties()[0].set_value(5)
+	print("Property 0: " + str(testIns.get_properties()[0].get_value()))
+
+	testIns.get_properties()[1].set_value(6)
+	print("Property 1: " + str(testIns.get_properties()[1].get_value()))
+
+	print(testIns.try_set_value())
+
+	print("Value: " + str(testIns.get_value()))
+
+
+testsDict.update({7: do_test_7})
 
 # Print methods
 def start_of_part_print(testNumber):
