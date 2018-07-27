@@ -12,7 +12,7 @@ class RectanglePerimeter(funClasses.Perimeter):
 
 		# Set defaults
 		self.set_name("Perimeter of Rectangle")
-		self.set_symbol("P(rect)")
+		self.set_symbol("P_rect")
 
 		# Add properties
 		__l = funClasses.Length()
@@ -36,9 +36,9 @@ class RectanglePerimeter(funClasses.Perimeter):
 	def try_set_value(self, *args):
 		# Try to calculate a value
 		if (self.set_value(self.calculate_rect_perimeter(self.get_properties()[0], self.get_properties()[1]))):
-			self.__expressionUsed = 0
+			return 0
 
-		self.__expressionUsed = -1
+		return -1
 
 	def calculate_rect_perimeter(self, _l, _w):
 		"""Standard formula for calculating a rectangle's perimeter"""
@@ -58,7 +58,7 @@ class RectangleArea(funClasses.Area):
 
 		# Set defaults
 		self.set_name("Area of Rectangle")
-		self.set_symbol("A(rect)")
+		self.set_symbol("A_rect")
 
 		# Add properties
 		__l = funClasses.Length()
@@ -82,9 +82,9 @@ class RectangleArea(funClasses.Area):
 	def try_set_value(self, *args):
 		# Try to calculate a value
 		if (DEFAULT_NEGATIVE_VALUE != self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[1]))):
-			self.__expressionUsed = 0
+			return 0
 
-		self.__expressionUsed = -1
+		return -1
 
 	def calculate_rect_area(self, _l, _w):
 		"""Standard formula for calculating a rectangle's area"""
@@ -105,7 +105,7 @@ class SquarePerimeter(RectanglePerimeter):
 
 		# Set defaults
 		self.set_name("Perimeter of Square")
-		self.set_symbol("P(square)")
+		self.set_symbol("P_square")
 
 		# Add expression
 		self.remove_expression(self.get_expressions()[0])
@@ -119,9 +119,9 @@ class SquarePerimeter(RectanglePerimeter):
 	def try_set_value(self, *args):
 		# Try to calculate a value
 		if (self.set_value(self.calculate_rect_perimeter(self.get_properties()[0], self.get_properties()[0]))):
-			self.__expressionUsed = 0
+			return 0
 
-		self.__expressionUsed = -1
+		return -1
 
 
 class SquareArea(RectangleArea):
@@ -132,7 +132,7 @@ class SquareArea(RectangleArea):
 
 		# Set defaults
 		self.set_name("Area of Square")
-		self.set_symbol("A(square)")
+		self.set_symbol("A_square")
 
 		# Add expression
 		self.remove_expression(self.get_expressions()[0])
@@ -145,9 +145,9 @@ class SquareArea(RectangleArea):
 	def try_set_value(self, *args):
 		# Try to calculate a value
 		if (self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[0]))):
-			self.__expressionUsed = 0
+			return 0
 
-		self.__expressionUsed = -1
+		return -1
 
 
 class CuboidVolume(funClasses.Volume):
@@ -157,7 +157,7 @@ class CuboidVolume(funClasses.Volume):
 
 		# Set defaults
 		self.set_name("Volume of Cubiod")
-		self.set_symbol("V(cuboid)")
+		self.set_symbol("V_cuboid")
 
 		# Add properties
 		__l = funClasses.Length()
@@ -196,13 +196,13 @@ class CuboidVolume(funClasses.Volume):
 		# Try to calculate a value
 		# From sides
 		if (self.set_value(self.calculate_cuboid_volume(self.get_properties()[0], self.get_properties()[1], self.get_properties()[2]))):
-			self.__expressionUsed = 0
+			return 0
 
 		# From base
 		if (self.set_value(self.calculate_cuboid_volume_2(self.get_properties()[3], self.get_properties()[2]))):
-			self.__expressionUsed = 1
+			return 1
 
-		self.__expressionUsed = -1
+		return -1
 
 	def calculate_cuboid_volume(self, _l, _w, _h):
 		"""Calculate from the sides"""

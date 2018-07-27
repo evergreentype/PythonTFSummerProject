@@ -2,19 +2,19 @@ import funClasses, rectangularFigures
 from funClasses import DEFAULT_FLOAT_FORMAT
 
 # FUNCTIONS
-def process_selection(xObject, ignore = False, level = 0):
-	"""Receive input from primitive or force Composite type to receive input (ignore = True) or iterate through properties to set values"""
+def process_selection(xObject, force = False):
+	"""Receive input from primitive or force Composite type to receive input (force = True) or iterate through properties to set values"""
 
 	valInput, valid = None, False
 
 	# If the object is a primitive (or forced), receive value as a primitive
-	if ((isinstance(xObject, funClasses.Composite) == False) or (ignore == True)):
+	if ((isinstance(xObject, funClasses.Composite) == False) or (force == True)):
 		print(xObject.get_name() + ", " + xObject.get_symbol() + " (" + xObject.get_unit() + "):")
 		while valid != True:
 			valInput = input("-> ")
 			valid = xObject.set_value(valInput)
 
-		# Break recursion
+		# End recursion
 		return
 
 	# If the object is Composite, print options
@@ -33,33 +33,78 @@ def process_selection(xObject, ignore = False, level = 0):
 	# Input from value is selected
 	if (usrInput == 1):
 		# Force Composite object to receive a primitive
-		process_selection(xObject, True, 1)
-	# Input by calculation was selected
+		process_selection(xObject, True)
+	# Input by Expression is selected
 	else:
 		# Iterative through the properties and set their values
 		for property in xObject.get_expressions()[usrInput-2].get_properties():
-			process_selection(property, False, 1)
+			process_selection(property, False)
 
 		# Try to set the Composite value
-		xObject.try_set_value()
+		expressionUsed = xObject.try_set_value()
+
+		xObject.set_expressionUsed(expressionUsed)
 
 
-def print_answer(xObject, xExprNumber=None):
+def fetch_expressions(xObject, of_type, force = False, level = 0):
+	"""Compose a string of Expressions values and return it.
+
+	Pass data type keyword (like str or float) to fill the of_type arg
+	level=0 indicates the top level of recursion, different formatting rules apply to it"""
+
+	# If the object is a primitive (or forced), return value as a primitive
+	if ((isinstance(xObject, funClasses.Composite) == False) or (force == True)):
+		# Do not return anything if on the top level
+		if (level == 0):
+			return None
+
+		# Decide which formatting options to use
+		if (of_type == str):
+			return xObject.get_symbol()
+		elif (of_type == float):
+			return ('{:' + DEFAULT_FLOAT_FORMAT + '}').format(xObject.get_value())
+
+	if (isinstance(xObject, funClasses.Composite) == True):
+		exprUsed = xObject.get_expressionUsed()
+
+		# Force Composite object to return a value
+		if (exprUsed == None):
+			return fetch_expressions(xObject, of_type, True, level=1)
+		
+		compositeStr = ''
+
+		if (level != 0):
+			compositeStr  += '('
+		expr = xObject.get_expressions()[exprUsed]
+
+		# Iterative through the properties and set their values
+		for value in expr.get_properties():
+			value.set_symbol(fetch_expressions(value, of_type, level=1))
+
+		compositeStr += expr.expr_str
+
+		if (level != 0):
+			compositeStr += ')'
+
+		compositeStr = compositeStr.format(**(expr.get_symbolic()))
+
+		return compositeStr
+
+
+def print_answer(xObject):
+	"""Print a to-calculate variable, expression used for calculation and found value with units"""
+
 	left_side, middle_expr_symb, middle_expr_float, right_side = None, None, None, None
 	
-	# Compose the left part
+	# Compose the left part: found mathematical object
 	left_side = xObject.get_symbol()
 
-	if ((isinstance(xObject, funClasses.Composite) == True) and (xExprNumber != None)):
-		expr = xObject.get_expressions()[xExprNumber]
+	if (isinstance(xObject, funClasses.Composite) == True):		
+		# Fetch the middle part: formula used
+		middle_expr_symb = fetch_expressions(xObject, str)
+		middle_expr_float = fetch_expressions(xObject, float)
 
-		# Compose the middle part
-		middle_expr_symb = expr.expr_str.format(**(expr.get_symbolic()))
-
-		expr.expr_str = expr.add_format(DEFAULT_FLOAT_FORMAT)
-		middle_expr_float = expr.expr_str.format(**(expr.get_values()))
-
-	# Cmpose the right part
+	# Compose the right part: answer value and units
 	right_side = "{answer:{Format}}".format(answer=xObject.get_value(), Format=DEFAULT_FLOAT_FORMAT) + " " + xObject.get_unit()
 
 	# Print
@@ -81,9 +126,6 @@ def print_answer(xObject, xExprNumber=None):
 
 	print(answerStr)
 
-def fetch_expressions():
-	pass
-
 
 def main_menu(objTypes):
 	"""Print the main menu while not terminated by input - 0"""
@@ -103,17 +145,17 @@ def main_menu(objTypes):
 	while usrInput not in range(0, i+1):
 		usrInput = int(input("-> "))
 
-	# Terminate if needed
+	# End recursion if needed
 	if (usrInput == 0):
 		return
 	else:
 		usrInput -= 1
 
 	# Print find options
-	expressionResult = process_selection(objects[usrInput])
+	process_selection(objects[usrInput])
 
 	print("## Answer: ")
-	print_answer(objects[usrInput], expressionResult)
+	print_answer(objects[usrInput])
 	print("##")
 
 	# Repeat
@@ -121,5 +163,5 @@ def main_menu(objTypes):
 	main_menu(objTypes)
 
 
-# INVOKE
+# INVOKE MENU
 main_menu(rectangularFigures.AVAIL_CLASSES)

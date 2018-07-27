@@ -8,7 +8,7 @@ DEFAULT_NEGATIVE_VALUE = None
 # Global constant for initial name initialisation
 DEFAULT_NAME = "Value"
 # Global dictonary for setting units
-DEFAULT_UNITS = {1:"units", 2:"units squared", 3:"units cubed"}
+DEFAULT_UNITS = {1:"units", 2:"units^2", 3:"units^3"}
 # Global constant for number formatting
 DEFAULT_FLOAT_FORMAT = ".2f"
 
@@ -100,6 +100,11 @@ class Composite:
 		
 	def get_expressions(self):
 		return self.__expressions
+
+	def set_expressionUsed(self, exprNum):
+		self.__expressionUsed = exprNum
+	def get_expressionUsed(self):
+		return self.__expressionUsed
 
 
 class CompositeMathObject(Composite, MathObject):
