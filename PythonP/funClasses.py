@@ -70,7 +70,7 @@ class Composite:
 		self.__expressions = []
 
 		# Integer value
-		self.__expressionUsed = None
+		self.__expressionUsed = -1
 
 	# Built-in methods
 	def add_property(self, prop):
