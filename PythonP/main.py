@@ -1,94 +1,69 @@
+import copy
 import funClasses, rectangularFigures
 from funClasses import DEFAULT_FLOAT_FORMAT
 
+
 # FUNCTIONS
-def process_selection(xObject, force = False):
+def process_selection(xObject, force = False, level = 1):
 	"""Receive input from primitive or force Composite type to receive input (force = True) or iterate through properties to set values"""
 
-	valInput, valid = None, False
+	separatorConst = 8
+
+	valInput, valid, indent = None, False, ' '*(level)
 
 	# If the object is a primitive (or forced), receive value as a primitive
 	if ((isinstance(xObject, funClasses.Composite) == False) or (force == True)):
-		print(xObject.get_name() + ", " + xObject.get_symbol() + " (" + xObject.get_unit() + "):")
+		print(indent + "# " + xObject.get_name() + ", " + xObject.get_symbol() + " (" + xObject.get_unit() + "):")
 		while valid != True:
-			valInput = input("-> ")
+			valInput = input(indent + "-> ")
 			valid = xObject.set_value(valInput)
 
 		# End recursion
 		return
 
 	# If the object is Composite, print options
-	print("## Find " + xObject.get_name() + ":")
-	print("1: From value")
+	print("-"*level + str(level) + "-"*(separatorConst - level))
+	print(indent + "Find " + xObject.get_name() + ", " + xObject.get_symbol())
+	print(indent + "# Select an option:")
+	print(indent + "1: From value")
 	i = 2
+
 	for expression in xObject.get_expressions():
-		print("{:d}".format(i) + ": " + expression.name + ": " + expression.expr_str.format(**(expression.get_symbolic())))
+		print(indent + "{:d}".format(i) + ": " + expression.name + ": " + expression.expr_str.format(**(expression.get_symbolic())))
 		i += 1
 
 	usrInput = -1
 	while usrInput not in range(1, i):
-		usrInput = int(input("-> "))
-	print("## Now enter value(s):")
+		usrInput = int(input(indent + "-> "))
 
 	# Input from value is selected
 	if (usrInput == 1):
 		# Force Composite object to receive a primitive
-		process_selection(xObject, True)
+		process_selection(xObject, True, level)
 	# Input by Expression is selected
 	else:
 		# Iterative through the properties and set their values
 		for property in xObject.get_expressions()[usrInput-2].get_properties():
-			process_selection(property, False)
+			process_selection(property, False, level + 1)
 
 		# Try to set the Composite value
 		expressionUsed = xObject.try_set_value()
 
+		# Set what expression was used for calculating a composite value
 		xObject.set_expressionUsed(expressionUsed)
+	
+	# Create a copy and fetch an answer
+	tempObj = copy.deepcopy(xObject)
+	levelAnswer = print_answer(tempObj)
 
-
-def fetch_expressions(xObject, of_type, force = False, level = 0):
-	"""Compose a string of Expressions values and return it.
-
-	Pass data type keyword (like str or float) to fill the of_type arg
-	level=0 indicates the top level of recursion, different formatting rules apply to it"""
-
-	# If the object is a primitive (or forced), return value as a primitive
-	if ((isinstance(xObject, funClasses.Composite) == False) or (force == True)):
-		# Do not return anything if on the top level
-		if (level == 0):
-			return None
-
-		# Decide which formatting options to use
-		if (of_type == str):
-			return xObject.get_symbol()
-		elif (of_type == float):
-			return ('{:' + DEFAULT_FLOAT_FORMAT + '}').format(xObject.get_value())
-
-	if (isinstance(xObject, funClasses.Composite) == True):
-		exprUsed = xObject.get_expressionUsed()
-
-		# Force Composite object to return a value
-		if (exprUsed == None):
-			return fetch_expressions(xObject, of_type, True, level=1)
+	# Print answer	
+	if (level == 1):
+		print(indent + "Final Answer:")
+	else:
+		print(indent + "Intermediate answer:")
+	print(indent + levelAnswer)
 		
-		compositeStr = ''
-
-		if (level != 0):
-			compositeStr  += '('
-		expr = xObject.get_expressions()[exprUsed]
-
-		# Iterative through the properties and set their values
-		for value in expr.get_properties():
-			value.set_symbol(fetch_expressions(value, of_type, level=1))
-
-		compositeStr += expr.expr_str
-
-		if (level != 0):
-			compositeStr += ')'
-
-		compositeStr = compositeStr.format(**(expr.get_symbolic()))
-
-		return compositeStr
+	print("-"*level + str(level) + "e" + "-"*(separatorConst - level - 1))
 
 
 def print_answer(xObject):
@@ -101,8 +76,8 @@ def print_answer(xObject):
 
 	if (isinstance(xObject, funClasses.Composite) == True):		
 		# Fetch the middle part: formula used
-		middle_expr_symb = fetch_expressions(xObject, str)
-		middle_expr_float = fetch_expressions(xObject, float)
+		middle_expr_symb = fetch_expressions(xObject, str, False)
+		middle_expr_float = fetch_expressions(xObject, float, False)
 
 	# Compose the right part: answer value and units
 	right_side = "{answer:{Format}}".format(answer=xObject.get_value(), Format=DEFAULT_FLOAT_FORMAT) + " " + xObject.get_unit()
@@ -124,7 +99,56 @@ def print_answer(xObject):
 	if (right_side != None):
 		answerStr += right_side
 
-	print(answerStr)
+	return answerStr
+
+
+def fetch_expressions(xObject, of_type, force, level=0):
+	"""Compose a string of Expressions values and return it. 
+	The fetching is based on finding what expressions were used (__expressionUsed) for finding the value and replacing symbols with their due properties. 
+	For example: In formula [ V_cuboid = A(base) * h ], if A(base) was found by its values [ a * b ], 
+	its symbol (A(base)) is substituted with its properties' symbols or values. 
+	The method returns a complete concatenated string.
+
+	Pass data type keyword (like str or float) to fill the of_type arg.
+	level=0 indicates the top level of recursion, different formatting rules apply to it"""
+
+	# If the object is a primitive (or forced), return value as a primitive
+	if ((isinstance(xObject, funClasses.Composite) == False) or (force == True)):
+		# Do not return anything if on the top level
+		if (level == 0):
+			return None
+
+		# Decide which formatting options to use
+		if (of_type == str):
+			return xObject.get_symbol()
+		elif (of_type == float):
+			return ('{:' + DEFAULT_FLOAT_FORMAT + '}').format(xObject.get_value())
+
+	if (isinstance(xObject, funClasses.Composite) == True):
+		exprUsed = xObject.get_expressionUsed()
+
+		# Force Composite object to return a value
+		if (exprUsed == None):
+			return fetch_expressions(xObject, of_type, True, level)
+		
+		compositeStr = ''
+
+		if (level != 0):
+			compositeStr  += '('
+		expr = xObject.get_expressions()[exprUsed]
+
+		# Iterative through the properties and set their values
+		for value in expr.get_properties():
+			value.set_symbol(fetch_expressions(value, of_type, False, 1))
+
+		compositeStr += expr.expr_str
+
+		if (level != 0):
+			compositeStr += ')'
+
+		compositeStr = compositeStr.format(**(expr.get_symbolic()))
+
+		return compositeStr
 
 
 def main_menu(objTypes):
@@ -151,15 +175,12 @@ def main_menu(objTypes):
 	else:
 		usrInput -= 1
 
-	# Print find options
+	# Make calculation of the choice
+	print("  Calculation:")
 	process_selection(objects[usrInput])
 
-	print("## Answer: ")
-	print_answer(objects[usrInput])
-	print("##")
-
 	# Repeat
-	print("#\n")
+	print("")
 	main_menu(objTypes)
 
 
