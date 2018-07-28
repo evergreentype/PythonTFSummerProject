@@ -5,10 +5,12 @@ from funClasses import DEFAULT_FLOAT_FORMAT
 
 # FUNCTIONS
 def process_selection(xObject, force = False, level = 1):
-	"""Receive input from primitive or force Composite type to receive input (force = True) or iterate through properties to set values"""
+	"""Receive input from primitive or force Composite type to receive input (force = True), or iterate through properties to set values"""
 
+	# Max number of "-" to print
 	separatorConst = 8
 
+	# Received value; validation bool; indentation string
 	valInput, valid, indent = None, False, ' '*(level)
 
 	# If the object is a primitive (or forced), receive value as a primitive
@@ -21,7 +23,7 @@ def process_selection(xObject, force = False, level = 1):
 		# End recursion
 		return
 
-	# If the object is Composite, print options
+	# For a Composite object, print options
 	print("-"*level + str(level) + "-"*(separatorConst - level))
 	print(indent + "Find " + xObject.get_name() + ", " + xObject.get_symbol())
 	print(indent + "# Select an option:")
@@ -53,6 +55,7 @@ def process_selection(xObject, force = False, level = 1):
 		xObject.set_expressionUsed(expressionUsed)
 	
 	# Create a copy and fetch an answer
+	# Reference: http://effbot.org/pyfaq/how-do-i-copy-an-object-in-python.htm
 	tempObj = copy.deepcopy(xObject)
 	levelAnswer = print_answer(tempObj)
 
