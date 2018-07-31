@@ -1,43 +1,29 @@
 import funClasses, rectangularFigures
+import numbers
 
 # STRUCTURE TAKEN FROM Tutorial/artem.py and Tutorial/artemTest.py
 
 # Run the tests
-runTest = (7,)
+runTest = (8,)
 testsDict = {}
-
-
-def print_inline(xObject):
-	"""Print a line for either a primitive value or calculated value"""
-
-	outputStr = None
-	tempLst = list()
-
-	# Test if it is Composite type
-	if (isinstance(xObject, funClasses.Composite)):
-		tempLst = [(property.get_value(), property.get_name()) for property in xObject.get_properties() 
-		if (property.get_value() != None)]
-
-	# Format the string if calculated from its properties
-	if (len(tempLst) > 0):
-		outputStr = "Calculated ("
-		
-		for (value, name) in tempLst:
-			outputStr += name + "=" + "{:.2f}".format(value) +  ","
-		
-		outputStr += "): "
-	else:
-		outputStr = "Input from value: "
-	
-	# Format and display answer
-	outputStr += "\n" + "{:.2f}".format(xObject.get_value())
-	outputStr += " (" + xObject.get_unit() + ")"
-
-	print(outputStr)
-
 
 # Main Block
 print("ARTEM'S TESTS")
+def do_test_8():
+	"""Test inheritance from math classes and lambda functions"""
+	class myPrimitive(numbers.Number):
+		def __new__(cls, val, *args, **kwargs):
+			return  super(myPrimitive, cls).__new__(cls, val)
+
+	a = myPrimitive(3) + myPrimitive(13)
+
+	print(a)
+testsDict.update({8: do_test_8})
+
+
+
+
+
 def do_test_1():
 	"""Test rectangle's perimeter"""
 	testVal1 = rectangularFigures.RectanglePerimeter()
@@ -85,6 +71,34 @@ def do_test_4():
 	print('From value 3: ' + str(testVal1.get_value()) + ' ' + testVal1.get_unit())
 	print('From input l=12: ' + str(testVal2.get_value()) + ' ' + testVal2.get_unit())
 testsDict.update({4: do_test_4})
+
+def print_inline(xObject):
+	"""Print a line for either a primitive value or calculated value"""
+
+	outputStr = None
+	tempLst = list()
+
+	# Test if it is Composite type
+	if (isinstance(xObject, funClasses.Composite)):
+		tempLst = [(property.get_value(), property.get_name()) for property in xObject.get_properties() 
+		if (property.get_value() != None)]
+
+	# Format the string if calculated from its properties
+	if (len(tempLst) > 0):
+		outputStr = "Calculated ("
+		
+		for (value, name) in tempLst:
+			outputStr += name + "=" + "{:.2f}".format(value) +  ","
+		
+		outputStr += "): "
+	else:
+		outputStr = "Input from value: "
+	
+	# Format and display answer
+	outputStr += "\n" + "{:.2f}".format(xObject.get_value())
+	outputStr += " (" + xObject.get_unit() + ")"
+
+	print(outputStr)
 
 def do_test_5():
 	"""Does not work after updates"""
