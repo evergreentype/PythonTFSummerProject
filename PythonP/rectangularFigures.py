@@ -1,8 +1,19 @@
 import funClasses
 from funClasses import DEFAULT_NEGATIVE_VALUE, DEFAULT_NAME
 
+# ABSTRACT OBJECTS
+class Rectangle(funClasses.Composite):
+	def __init__(self):
+		funClasses.Composite.__init__(self)
 
-# FUNCTIONAL CLASSES
+		# Set
+		self.set_name("Rectangle")
+		self.set_symbol("rect")
+
+
+
+
+# FUNCTIONAL OBJECTS
 class RectanglePerimeter(funClasses.Perimeter):
 	"""Perimeter implementation for a rectangle figure"""
 
@@ -156,7 +167,7 @@ class CuboidVolume(funClasses.Volume):
 		funClasses.Volume.__init__(self)
 
 		# Set defaults
-		self.set_name("Volume of Cubiod")
+		self.set_name("Volume of Cuboid")
 		self.set_symbol("V_cuboid")
 
 		# Add properties
