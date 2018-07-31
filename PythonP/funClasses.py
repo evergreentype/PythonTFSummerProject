@@ -11,7 +11,8 @@ DEFAULT_NAME = "Value"
 DEFAULT_UNITS = {1:"units", 2:"units^2", 3:"units^3"}
 # Global constant for number formatting
 DEFAULT_FLOAT_FORMAT = ".2f"
-
+# Global standard value for not set state of __expressionUsed
+DEFAULT_EXPRESSION_USED = -1
 
 # CORE CLASSES
 class MathObject:
@@ -22,23 +23,12 @@ class MathObject:
 	def __init__(self):
 		"""Declare base values"""
 
-		# Digital value
-		self.__value = None
 		# Name (string)
 		self.__name = None
 		# Symbol
 		self.__symbol = None
 		# Unit (dictionary value)
 		self.__unit = None
-
-
-	# Implementation methods for value operations
-	def set_value(self, val):
-		raise NotImplementedError("Must implement method set_value(self, *args)")
-	def get_value(self):
-		raise NotImplementedError("Must implement method get_value(self)")
-	def validate_value(self, input):
-		raise NotImplementedError("Must implement method validate_value(self, input)")
 
 	# Built-in methods
 	def set_name(self, name):
@@ -57,12 +47,32 @@ class MathObject:
 		return self.__unit
 
 
-class Composite:
-	"""Base abstract class that identifies composite objects (objects with properties adn expressions).
+class PrimitiveMathObject(MathObject):
+
+	def __init__(self):
+		"""Declare base values"""
+		MathObject.__init__(self)
+
+		# Digital value
+		self.__value = None
+
+	# Implementation methods for value operations
+	def set_value(self, val):
+		raise NotImplementedError("Must implement method set_value(self, *args)")
+	def get_value(self):
+		raise NotImplementedError("Must implement method get_value(self)")
+	def validate_value(self, input):
+		raise NotImplementedError("Must implement method validate_value(self, input)")
+
+
+class Composite(MathObject):
+	"""Base abstract class that identifies composite objects (objects with properties and expressions).
 
 	Supports adding and removing elements for the list of properties and expressions. It is not supposed to be initialised directly"""
 
 	def __init__(self):
+		MathObject.__init__(self)
+
 		# A list that consists of other MathObject or Composite objects
 		self.__properties = []
 
@@ -70,7 +80,7 @@ class Composite:
 		self.__expressions = []
 
 		# Integer value
-		self.__expressionUsed = -1
+		self.__expressionUsed = DEFAULT_EXPRESSION_USED
 
 	# Built-in methods
 	def add_property(self, prop):
@@ -107,21 +117,25 @@ class Composite:
 		return self.__expressionUsed
 
 
-class CompositeMathObject(Composite, MathObject):
+class CompositeMathObject(Composite, PrimitiveMathObject):
 	"""Base abstract class that combines a primitive (i.e. has a value) and composite (i.e. has properties) types.
 
 	It is not supposed to be initialised directly"""
+
+	def __init__(self):
+		Composite.__init__(self)
+		PrimitiveMathObject.__init__(self)
 
 	def try_set_value(self, *args):
 		"""Implement calculating a value from properties"""
 		raise NotImplementedError("Must implement method assign_properties(self, *args)")
 
 
-class Length(MathObject):
+class Length(PrimitiveMathObject):
 	"""1D primitive"""
 
 	def __init__(self):
-		MathObject.__init__(self)
+		PrimitiveMathObject.__init__(self)
 
 		self.__value = DEFAULT_NEGATIVE_VALUE
 		self.set_name("Length")

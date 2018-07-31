@@ -167,7 +167,7 @@ class CuboidVolume(funClasses.Volume):
 		funClasses.Volume.__init__(self)
 
 		# Set defaults
-		self.set_name("Volume of Cubiod")
+		self.set_name("Volume of Cuboid")
 		self.set_symbol("V_cuboid")
 
 		# Add properties

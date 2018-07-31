@@ -1,6 +1,6 @@
 import copy
 import funClasses, rectangularFigures
-from funClasses import DEFAULT_FLOAT_FORMAT
+from funClasses import DEFAULT_FLOAT_FORMAT, DEFAULT_EXPRESSION_USED
 
 
 # FUNCTIONS
@@ -15,9 +15,9 @@ def process_selection(xObject, force = False, level = 1):
 
 	# If the object is a primitive (or forced), receive value as a primitive
 	if ((isinstance(xObject, funClasses.Composite) == False) or (force == True)):
-		print(indent + "# " + xObject.get_name() + ", " + xObject.get_symbol() + " (" + xObject.get_unit() + "):")
+		print(indent + "# " + xObject.get_name() + " (" + xObject.get_unit() + "):")
 		while valid != True:
-			valInput = input(indent + "-> ")
+			valInput = input(indent + xObject.get_symbol() + " = ")
 			valid = xObject.set_value(valInput)
 
 		# End recursion
@@ -34,6 +34,7 @@ def process_selection(xObject, force = False, level = 1):
 		print(indent + "{:d}".format(i) + ": " + expression.name + ": " + expression.expr_str.format(**(expression.get_symbolic())))
 		i += 1
 
+	# Receive input
 	usrInput = -1
 	while usrInput not in range(1, i):
 		usrInput = int(input(indent + "-> "))
@@ -63,7 +64,7 @@ def process_selection(xObject, force = False, level = 1):
 	if (level == 1):
 		print(indent + "Final Answer:")
 	else:
-		print(indent + "Intermediate answer:")
+		print(indent + "Intermediate Output:")
 	print(indent + levelAnswer)
 		
 	print("-"*level + str(level) + "e" + "-"*(separatorConst - level - 1))
@@ -78,7 +79,7 @@ def print_answer(xObject):
 	left_side = xObject.get_symbol()
 
 	if (isinstance(xObject, funClasses.Composite) == True):		
-		# Fetch the middle part: formula used
+		# Fetch the middle part: expression used
 		middle_expr_symb = fetch_expressions(xObject, str, False)
 		middle_expr_float = fetch_expressions(xObject, float, False)
 
@@ -107,12 +108,11 @@ def print_answer(xObject):
 
 def fetch_expressions(xObject, of_type, force, level=0):
 	"""Compose a string of Expressions values and return it. 
-	The fetching is based on finding what expressions were used (__expressionUsed) for finding the value and replacing symbols with their due properties. 
-	For example: In formula [ V_cuboid = A(base) * h ], if A(base) was found by its values [ a * b ], 
-	its symbol (A(base)) is substituted with its properties' symbols or values. 
+	The fetching is based on finding what expression was used (__expressionUsed) for finding the value and replacing symbols with their due properties. 
+	For example: In formula [ V_cuboid = A(base) * h ], if A(base) was found by its values [ a * b ], its symbol, A(base), is substituted with its properties' symbols or values. 
 	The method returns a complete concatenated string.
 
-	Pass data type keyword (like str or float) to fill the of_type arg.
+	To fill the of_type arg, pass data type keyword (like str or float).
 	level=0 indicates the top level of recursion, different formatting rules apply to it"""
 
 	# If the object is a primitive (or forced), return value as a primitive
@@ -121,7 +121,7 @@ def fetch_expressions(xObject, of_type, force, level=0):
 		if (level == 0):
 			return None
 
-		# Decide which formatting options to use
+		# Decide which formatting option to use
 		if (of_type == str):
 			return xObject.get_symbol()
 		elif (of_type == float):
@@ -131,7 +131,7 @@ def fetch_expressions(xObject, of_type, force, level=0):
 		exprUsed = xObject.get_expressionUsed()
 
 		# Force Composite object to return a value
-		if (exprUsed == None):
+		if (exprUsed == DEFAULT_EXPRESSION_USED):
 			return fetch_expressions(xObject, of_type, True, level)
 		
 		compositeStr = ''
