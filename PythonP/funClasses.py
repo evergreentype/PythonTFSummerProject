@@ -4,7 +4,7 @@ import math
 
 # GLOBAL CONSTANTS
 # Global constant for initial value initialisation for positive values
-DEFAULT_NEGATIVE_VALUE = None
+DEFAULT_NEGATIVE_VALUE = -1
 # Global constant for initial name initialisation
 DEFAULT_NAME = "Value"
 # Global dictonary for setting units
@@ -18,7 +18,8 @@ DEFAULT_EXPRESSION_USED = -1
 class MathObject:
 	"""Base abstract class inherited by all primitives.
 
-	Implementation of get-, set- and validate-value methods required; init method must set values to defaults. It is not supposed to be initialised directly"""
+	Implementation of get-, set- and validate-value methods required; init method must set values to defaults. 
+	It is not supposed to be initialised directly"""
 
 	def __init__(self):
 		"""Declare base values"""
@@ -68,7 +69,8 @@ class PrimitiveMathObject(MathObject):
 class Composite(MathObject):
 	"""Base abstract class that identifies composite objects (objects with properties and expressions).
 
-	Supports adding and removing elements for the list of properties and expressions. It is not supposed to be initialised directly"""
+	Supports adding and removing elements for the list of properties and expressions.
+	It is not supposed to be initialised directly"""
 
 	def __init__(self):
 		MathObject.__init__(self)
@@ -131,18 +133,15 @@ class CompositeMathObject(Composite, PrimitiveMathObject):
 		raise NotImplementedError("Must implement method assign_properties(self, *args)")
 
 
-class Length(PrimitiveMathObject):
+class Primitive1D(PrimitiveMathObject):
 	"""1D primitive"""
 
 	def __init__(self):
 		PrimitiveMathObject.__init__(self)
-
-		self.__value = DEFAULT_NEGATIVE_VALUE
-		self.set_name("Length")
 		self.set_unit(DEFAULT_UNITS[1])
 
 	def set_value(self, val):
-		"""Accepts a single positive value"""
+		"""Accepts a single float value"""
 
 		if (val == None):
 			return False
@@ -154,22 +153,58 @@ class Length(PrimitiveMathObject):
 			return False
 
 	def get_value(self):
-		"""Returns a single positive value or a negative -1, if value is not set"""
-		if (self.__value != None and self.__value > 0):
+		"""Returns a single positive value or None, if the value is not set"""
+		if (self.__value != None):
+			return self.__value
+		else:
+			return None
+
+	def validate_value(self, input):
+		"""Validate if input exists, is a float"""
+		if (input != None):
+			try:
+				if (float(input) != None):
+					return True
+				else:
+					return False
+			except ValueError:
+				return False
+
+class Length(Primitive1D):
+	"""A positive only 1D primitive"""
+
+	def __init__(self):
+		Primitive1D.__init__(self)
+
+		self.__value = DEFAULT_NEGATIVE_VALUE
+		self.set_name("Length")
+		self.set_unit(DEFAULT_UNITS[1])
+
+	def set_value(self, val):
+		"""Accepts a single positive float value"""
+
+		if (Primitive1D.validate_value(self, val) == False):
+			return False
+
+		if (self.validate_value(val)):
+			self.__value = float(val)
+			return True
+		else:
+			return False
+
+	def get_value(self):
+		"""Returns a single positive value or DEFAULT_NEGATIVE_VALUE, if value is not set"""
+		if (Primitive1D.get_value(self) != None and self.__value > 0):
 			return self.__value
 		else:
 			return DEFAULT_NEGATIVE_VALUE
 
 	def validate_value(self, input):
 		"""Validate if input exists, is a float and has > 0 value"""
-		if (input != None):
-			try:
-				if (float(input) > 0):
-					return True
-				else:
-					return False
-			except ValueError:
-				return False
+		if (float(input) > 0):
+			return True
+		else:
+			return False
 
 
 class Perimeter(CompositeMathObject, Length):
