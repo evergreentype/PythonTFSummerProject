@@ -118,6 +118,8 @@ class CuboidVolume(funClasses.Volume):
         except:
             pass
 
+        return -1
+
     def calculate_cuboid_volume(self, _l, _w, _h):
         """Calculate from the sides"""
         l = _l.get_value()

@@ -49,7 +49,10 @@ def process_selection(xObject, force=False, level=1):
     # Receive input
     usrInput = -1
     while usrInput not in range(1, i):
-        usrInput = int(input(indent + "-> "))
+        try:
+            usrInput = int(input(indent + "-> "))
+        except:
+            usrInput = -1
 
     # Input from value is selected
     if (usrInput == 1):
