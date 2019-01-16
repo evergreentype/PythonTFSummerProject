@@ -1,18 +1,6 @@
 import funClasses
 from funClasses import DEFAULT_NEGATIVE_VALUE, DEFAULT_NAME
 
-# ABSTRACT OBJECTS
-class Rectangle(funClasses.Composite):
-	def __init__(self):
-		funClasses.Composite.__init__(self)
-
-		# Set
-		self.set_name("Rectangle")
-		self.set_symbol("rect")
-
-
-
-
 # FUNCTIONAL OBJECTS
 class RectanglePerimeter(funClasses.Perimeter):
 	"""Perimeter implementation for a rectangle figure"""
