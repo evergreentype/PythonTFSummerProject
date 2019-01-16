@@ -112,7 +112,7 @@ def fetch_expressions(xObject, of_type, force, level=0):
 	For example: In formula [ V_cuboid = A(base) * h ], if A(base) was found by its values [ a * b ], its symbol, A(base), is substituted with its properties' symbols or values. 
 	The method returns a complete concatenated string.
 
-	To fill the of_type arg, pass data type keyword (like str or float).
+	To fill the of_type arg, pass data-type keyword (like str or float).
 	level=0 indicates the top level of recursion, different formatting rules apply to it"""
 
 	# If the object is a primitive (or forced), return value as a primitive
