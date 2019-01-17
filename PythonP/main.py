@@ -1,7 +1,6 @@
 import copy
 import funClasses
-import rectangularFigures
-import accounting
+import rectangularFigures, accounting
 from funClasses import DEFAULT_FLOAT_FORMAT, DEFAULT_EXPRESSION_USED, DEFAULT_ERROR_STR
 
 
@@ -211,4 +210,7 @@ def main_menu(objTypes):
 
 
 # INVOKE MENU
-main_menu(accounting.AVAIL_CLASSES)
+# Get classes from all modules
+all_available_classes = accounting.AVAIL_CLASSES # + rectangularFigures.AVAIL_CLASSES
+
+main_menu(all_available_classes)

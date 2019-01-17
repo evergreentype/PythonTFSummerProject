@@ -1,6 +1,9 @@
-import math
+""" Shorter from Fundamental Classes """
 
-# Shorter from Fundamental Classes
+# IMPORTS
+import math
+#
+
 
 # GLOBAL CONSTANTS
 # Global constant for initial value initialisation for positive values
@@ -15,10 +18,10 @@ DEFAULT_FLOAT_FORMAT = ".2f"
 DEFAULT_EXPRESSION_USED = -1
 # Global constant for error message
 DEFAULT_ERROR_STR = "Error: "
+#
+
 
 # CORE CLASSES
-
-
 class MathObject:
     """Base abstract class inherited by all primitives.
 
@@ -155,78 +158,6 @@ class CompositeMathObject(Composite, PrimitiveMathObject):
         """Implement calculating a value from properties"""
         raise NotImplementedError(
             "Must implement method assign_properties(self, *args)")
-
-
-class Length(PrimitiveMathObject):
-    """1D primitive"""
-
-    def __init__(self):
-        PrimitiveMathObject.__init__(self)
-
-        self.__value = DEFAULT_NEGATIVE_VALUE
-        self.set_name("Length")
-        self.set_unit(DEFAULT_UNITS[1])
-
-    def set_value(self, val):
-        """Accepts a single positive value"""
-        try:
-            self.validate_value(val)
-            self.__value = float(val)
-        except Exception as e:
-            raise e
-
-    def get_value(self):
-        """Return a single positive value or a negative -1, if value is not set"""
-        try:
-            self.validate_value(self.__value)
-            return self.__value
-        except Exception as e:
-            raise e
-
-    def validate_value(self, input):
-        """Validate if input exists, is a float and has >= 0 value"""
-        try:
-            PrimitiveMathObject.validate_value(self, input)
-
-            if (float(input) >= 0):
-                pass
-            else:
-                raise ValueError("Value out of range")
-        except Exception as c:
-            raise c
-
-
-class Perimeter(CompositeMathObject, Length):
-    """Inherits properties of a one-dimentional line, but is able to have properties"""
-
-    def __init__(self):
-        CompositeMathObject.__init__(self)
-
-        self.set_name(DEFAULT_NAME)
-        self.set_symbol("P")
-        self.set_unit(DEFAULT_UNITS[1])
-
-
-class Area(CompositeMathObject, Length):
-    """Abstract 2D concept"""
-
-    def __init__(self):
-        CompositeMathObject.__init__(self)
-
-        self.set_name(DEFAULT_NAME)
-        self.set_symbol("A")
-        self.set_unit(DEFAULT_UNITS[2])
-
-
-class Volume(CompositeMathObject, Length):
-    """Abstract 3D concept"""
-
-    def __init__(self):
-        CompositeMathObject.__init__(self)
-
-        self.set_name(DEFAULT_NAME)
-        self.set_symbol("V")
-        self.set_unit(DEFAULT_UNITS[3])
 
 
 class Expression:

@@ -1,23 +1,24 @@
+"""Module dedicated to accounting-related objects"""
+
+# IMPORTS
 import funClasses
+import mathematics_p
 from funClasses import DEFAULT_NEGATIVE_VALUE, DEFAULT_NAME
+#
+
 
 # FUNCTIONAL OBJECTS
-# Length: +Dividends.
-# CompositeMathObject, Length: +Revenues, +Expenses.
-# CompositeMathObject: +Net income, +Retained Earnings, +Liabilities, +Stockholder's Equity, Assets.
-
-
-class Dividends(funClasses.Length):
+class Dividends(mathematics_p.Length):
     def __init__(self):
         """Simple initialisation"""
-        funClasses.Length.__init__(self)
+        mathematics_p.Length.__init__(self)
 
         self.set_name("Dividends")
         self.set_symbol("D")
         self.set_unit("$")
 
 
-class Revenues(funClasses.CompositeMathObject, funClasses.Length):
+class Revenues(funClasses.CompositeMathObject, mathematics_p.Length):
     def __init__(self):
         """Currently does not have properties"""
         funClasses.CompositeMathObject.__init__(self)
@@ -31,7 +32,7 @@ class Revenues(funClasses.CompositeMathObject, funClasses.Length):
         return -1
 
 
-class Expenses(funClasses.CompositeMathObject, funClasses.Length):
+class Expenses(funClasses.CompositeMathObject, mathematics_p.Length):
     def __init__(self):
         """Currently does not have properties"""
         funClasses.CompositeMathObject.__init__(self)
@@ -164,7 +165,7 @@ class StockholdersEquity(funClasses.CompositeMathObject):
 
         # Add properties
         __RE = RetainedEarnings()
-        __commonStock = funClasses.Length()
+        __commonStock = mathematics_p.Length()
 
         # Initialise Common Stock object
         __commonStock.set_name("Common Stock")
