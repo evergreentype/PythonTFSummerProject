@@ -2,27 +2,25 @@ import funClasses
 from funClasses import DEFAULT_NEGATIVE_VALUE, DEFAULT_NAME
 
 # FUNCTIONAL OBJECTS
-# PrimitiveMathObject: Dividents.
-# CompositeMathObject: Revenues, Expenses, Liabilities.
-# CompositeMathObject: Net income, Retained Earnings.
-# CompositeMathObject: Stockholder's Equity, Liabilities.
+# Length: +Dividends.
+# CompositeMathObject, Length: +Revenues, +Expenses.
+# CompositeMathObject: +Net income, +Retained Earnings, +Liabilities, +Stockholder's Equity, Assets.
 
-class Dividents(funClasses.Length):
-    """Dividents"""
 
+class Dividends(funClasses.Length):
     def __init__(self):
         """Simple initialisation"""
         funClasses.Length.__init__(self)
 
-        self.set_name("Dividents")
+        self.set_name("Dividends")
         self.set_symbol("D")
         self.set_unit("$")
 
 
-class Revenue(funClasses.CompositeMathObject):
+class Revenues(funClasses.CompositeMathObject, funClasses.Length):
     def __init__(self):
-        """Currently does not have Expressions"""
-        funClasses.Area.__init__(self)
+        """Currently does not have properties"""
+        funClasses.CompositeMathObject.__init__(self)
 
         # Set defaults
         self.set_name("Revenue")
@@ -30,158 +28,232 @@ class Revenue(funClasses.CompositeMathObject):
         self.set_unit("$")
 
     def try_set_value(self, *args):
-        # Try to calculate a value
-        #if (DEFAULT_NEGATIVE_VALUE != self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[1]))):
-        #    return 0
-
         return -1
 
-    def calculate_rect_area(self, _l, _w):
-        """Standard formula for calculating a rectangle's area"""
-        l = _l.get_value()
-        w = _w.get_value()
 
-        try:
-            return l * w
-        except:
-            return DEFAULT_NEGATIVE_VALUE
-
-
-class RectangleArea(funClasses.Area):
+class Expenses(funClasses.CompositeMathObject, funClasses.Length):
     def __init__(self):
-        """Initialise length and width and add them to get_properties()"""
-        funClasses.Area.__init__(self)
+        """Currently does not have properties"""
+        funClasses.CompositeMathObject.__init__(self)
 
         # Set defaults
-        self.set_name("Area of Rectangle")
-        self.set_symbol("A_rect")
+        self.set_name("Expense")
+        self.set_symbol("E")
+        self.set_unit("$")
+
+    def try_set_value(self, *args):
+        return -1
+
+
+class NetIncome(funClasses.CompositeMathObject):
+    def __init__(self):
+        """Initialise Revenue and Expense objects and add them to properties"""
+        funClasses.CompositeMathObject.__init__(self)
+
+        # Set defaults
+        self.set_name("Net income")
+        self.set_symbol("NI")
+        self.set_unit("$")
 
         # Add properties
-        __l = funClasses.Length()
-        __l.set_name("Length")
-        __l.set_symbol("l")
+        __revenues = Revenues()
 
-        __w = funClasses.Length()
-        __w.set_name("Width")
-        __w.set_symbol("w")
+        __expenses = Expenses()
 
-        self.add_property(__l)
-        self.add_property(__w)
+        self.add_property(__revenues)
+        self.add_property(__expenses)
 
         # Add expression
         __expr0 = funClasses.Expression(
-            expressionStr="{l} * {w}",
-            **{'l': self.get_properties()[0], 'w': self.get_properties()[1]})
+            expressionStr="{r} - {e}",
+            **{'r': self.get_properties()[0], 'e': self.get_properties()[1]})
 
         self.add_expression(__expr0)
 
     def try_set_value(self, *args):
         # Try to calculate a value
         try:
-            self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[1]))
+            self.set_value(self.calculate_netIncome(
+                self.get_properties()[0], self.get_properties()[1]))
             return 0
         except:
             pass
-        
+
         return -1
 
-    def calculate_rect_area(self, _l, _w):
-        """Standard formula for calculating a rectangle's area"""
-        l = _l.get_value()
-        w = _w.get_value()
+    def calculate_netIncome(self, _revenues, _expenses):
+        """Calculate a net income"""
+        revenues = _revenues.get_value()
+        expenses = _expenses.get_value()
 
         try:
-            return l * w
-        except:
-            return DEFAULT_NEGATIVE_VALUE
+            return revenues - expenses
+        except Exception as e:
+            raise e
 
 
-class CuboidVolume(funClasses.Volume):
+class RetainedEarnings(funClasses.CompositeMathObject):
     def __init__(self):
-        """Initialise length and width and add them to get_properties()"""
-        funClasses.Volume.__init__(self)
+        """Initialise Revenue and Expense objects and add them to properties"""
+        funClasses.CompositeMathObject.__init__(self)
 
         # Set defaults
-        self.set_name("Volume of Cuboid")
-        self.set_symbol("V_cuboid")
+        self.set_name("Retained Earnings")
+        self.set_symbol("RE")
+        self.set_unit("$")
 
         # Add properties
-        __l = funClasses.Length()
-        __l.set_name("Length")
-        __l.set_symbol("l")
+        __netIncome = NetIncome()
+        __dividends = Dividends()
 
-        __w = funClasses.Length()
-        __w.set_name("Width")
-        __w.set_symbol("w")
+        self.add_property(__netIncome)
+        self.add_property(__dividends)
 
-        __h = funClasses.Length()
-        __h.set_name("Height")
-        __h.set_symbol("h")
-
-        __base = RectangleArea()
-        __base.set_name("Base Area")
-        __base.set_symbol("A(base)")
-
-        self.add_property(__l)
-        self.add_property(__w)
-        self.add_property(__h)
-        self.add_property(__base)
-
-        # Add expressions
+        # Add expression
         __expr0 = funClasses.Expression(
-            expressionStr="{l} * {w} * {h}",
-            **{'l': self.get_properties()[0], 'w': self.get_properties()[1], 'h': self.get_properties()[2]})
-        self.add_expression(__expr0)
+            expressionStr="{ni} - {d}",
+            **{'ni': self.get_properties()[0], 'd': self.get_properties()[1]})
 
-        __expr1 = funClasses.Expression(
-            expressionStr="{base} * {h}",
-            **{'base': self.get_properties()[3], 'h': self.get_properties()[2]})
-        self.add_expression(__expr1)
+        self.add_expression(__expr0)
 
     def try_set_value(self, *args):
         # Try to calculate a value
         try:
-            # From sides
-            self.set_value(self.calculate_cuboid_volume(self.get_properties()[0], self.get_properties()[1], self.get_properties()[2]))
+            self.set_value(self.calculate_retainedEarnings(
+                self.get_properties()[0], self.get_properties()[1]))
             return 0
-        except:
-            pass
-
-        try:
-            # From base
-            self.set_value(self.calculate_cuboid_volume_2(self.get_properties()[3], self.get_properties()[2]))
-            return 1
         except:
             pass
 
         return -1
 
-    def calculate_cuboid_volume(self, _l, _w, _h):
-        """Calculate from the sides"""
-        l = _l.get_value()
-        w = _w.get_value()
-        h = _h.get_value()
+    def calculate_retainedEarnings(self, _netIncome, _dividends):
+        """Calculate a net income"""
+        netIncome = _netIncome.get_value()
+        dividends = _dividends.get_value()
 
         try:
-            return l * w * h
-        except:
-            return DEFAULT_NEGATIVE_VALUE
+            return netIncome - dividends
+        except Exception as e:
+            raise e
 
-    def calculate_cuboid_volume_2(self, _base, _h):
-        """Calculate from the sides"""
-        b = _base.get_value()
-        h = _h.get_value()
+
+class Liabilities(funClasses.CompositeMathObject):
+    def __init__(self):
+        """It has no properties at this implementation"""
+        funClasses.CompositeMathObject.__init__(self)
+
+        # Set defaults
+        self.set_name("Liabilities")
+        self.set_symbol("L")
+        self.set_unit("$")
+
+    def try_set_value(self, *args):
+        return -1
+
+
+class StockholdersEquity(funClasses.CompositeMathObject):
+    def __init__(self):
+        """Initialise Common stock and Retained Earnings objects and add them to properties"""
+        funClasses.CompositeMathObject.__init__(self)
+
+        # Set defaults
+        self.set_name("Stockholder's Equity")
+        self.set_symbol("SE")
+        self.set_unit("$")
+
+        # Add properties
+        __RE = RetainedEarnings()
+        __commonStock = funClasses.Length()
+
+        # Initialise Common Stock object
+        __commonStock.set_name("Common Stock")
+        __commonStock.set_symbol("CS")
+        __commonStock.set_unit("$")
+
+        self.add_property(__RE)
+        self.add_property(__commonStock)
+
+        # Add expression
+        __expr0 = funClasses.Expression(
+            expressionStr="{RE} + {CS}",
+            **{'RE': self.get_properties()[0], 'CS': self.get_properties()[1]})
+
+        self.add_expression(__expr0)
+
+    def try_set_value(self, *args):
+        # Try to calculate a value
+        try:
+            self.set_value(self.calculate_SE(
+                self.get_properties()[0], self.get_properties()[1]))
+            return 0
+        except:
+            pass
+
+        return -1
+
+    def calculate_SE(self, _RE, _commonStock):
+        """Calculate Stockholder's Equity"""
+        RE = _RE.get_value()
+        commonStock = _commonStock.get_value()
 
         try:
-            return b * h
+            return RE + commonStock
+        except Exception as e:
+            raise e
+
+
+class Assets(funClasses.CompositeMathObject):
+    def __init__(self):
+        """Initialise Stockholder's Equity and Liabilities objects and add them to properties"""
+        funClasses.CompositeMathObject.__init__(self)
+
+        # Set defaults
+        self.set_name("Assets")
+        self.set_symbol("A")
+        self.set_unit("$")
+
+        # Add properties
+        __L = Liabilities()
+        __SE = StockholdersEquity()
+
+        self.add_property(__L)
+        self.add_property(__SE)
+
+        # Add expression
+        __expr0 = funClasses.Expression(
+            expressionStr="{L} + {SE}",
+            **{'L': self.get_properties()[0], 'SE': self.get_properties()[1]})
+
+        self.add_expression(__expr0)
+
+    def try_set_value(self, *args):
+        # Try to calculate a value
+        try:
+            self.set_value(self.calculate_SE(
+                self.get_properties()[0], self.get_properties()[1]))
+            return 0
         except:
-            return DEFAULT_NEGATIVE_VALUE
+            pass
+
+        return -1
+
+    def calculate_SE(self, _liabilities, _SE):
+        """Calculate Stockholder's Equity"""
+        liabilities = _liabilities.get_value()
+        SE = _SE.get_value()
+
+        try:
+            return liabilities + SE
+        except Exception as e:
+            raise e
 
 
 # GLOBAL
 # List of available classes as types
 AVAIL_CLASSES = [
-    Dividents,
-    Revenue,
-    CuboidVolume
+    NetIncome,
+    RetainedEarnings,
+    StockholdersEquity,
+    Assets
 ]

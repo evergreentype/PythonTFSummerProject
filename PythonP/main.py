@@ -186,7 +186,10 @@ def main_menu(objTypes):
     # Receive and validate input
     usrInput = -1
     while usrInput not in range(0, i+1):
-        usrInput = int(input("-> "))
+        try:
+            usrInput = int(input("-> "))
+        except:
+            usrInput = -1
 
     # End recursion if needed
     if (usrInput == 0):
