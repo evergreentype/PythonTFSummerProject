@@ -29,7 +29,7 @@ def process_selection(xObject, force=False, level=1):
                 valid = True
             except Exception as e:
                 # Print exception string
-                print(indent + DEFAULT_ERROR_STR + str(e))
+                print(indent + "^" + DEFAULT_ERROR_STR + str(e))
 
         # End recursion
         return

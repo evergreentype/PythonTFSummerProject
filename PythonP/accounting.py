@@ -2,16 +2,49 @@ import funClasses
 from funClasses import DEFAULT_NEGATIVE_VALUE, DEFAULT_NAME
 
 # FUNCTIONAL OBJECTS
+# PrimitiveMathObject: Dividents.
+# CompositeMathObject: Revenues, Expenses, Liabilities.
+# CompositeMathObject: Net income, Retained Earnings.
+# CompositeMathObject: Stockholder's Equity, Liabilities.
 
-
-class Line1(funClasses.Length):
-    """Perimeter implementation for a rectangle figure"""
+class Dividents(funClasses.Length):
+    """Dividents"""
 
     def __init__(self):
-        """Initialise length and width and add them to get_properties()"""
+        """Simple initialisation"""
         funClasses.Length.__init__(self)
 
-        self.set_symbol("l1")
+        self.set_name("Dividents")
+        self.set_symbol("D")
+        self.set_unit("$")
+
+
+class Revenue(funClasses.CompositeMathObject):
+    def __init__(self):
+        """Currently does not have Expressions"""
+        funClasses.Area.__init__(self)
+
+        # Set defaults
+        self.set_name("Revenue")
+        self.set_symbol("R")
+        self.set_unit("$")
+
+    def try_set_value(self, *args):
+        # Try to calculate a value
+        #if (DEFAULT_NEGATIVE_VALUE != self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[1]))):
+        #    return 0
+
+        return -1
+
+    def calculate_rect_area(self, _l, _w):
+        """Standard formula for calculating a rectangle's area"""
+        l = _l.get_value()
+        w = _w.get_value()
+
+        try:
+            return l * w
+        except:
+            return DEFAULT_NEGATIVE_VALUE
 
 
 class RectangleArea(funClasses.Area):
@@ -44,9 +77,12 @@ class RectangleArea(funClasses.Area):
 
     def try_set_value(self, *args):
         # Try to calculate a value
-        if (DEFAULT_NEGATIVE_VALUE != self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[1]))):
+        try:
+            self.set_value(self.calculate_rect_area(self.get_properties()[0], self.get_properties()[1]))
             return 0
-
+        except:
+            pass
+        
         return -1
 
     def calculate_rect_area(self, _l, _w):
@@ -106,15 +142,15 @@ class CuboidVolume(funClasses.Volume):
         # Try to calculate a value
         try:
             # From sides
-            if (self.set_value(self.calculate_cuboid_volume(self.get_properties()[0], self.get_properties()[1], self.get_properties()[2]))):
-                return 0
+            self.set_value(self.calculate_cuboid_volume(self.get_properties()[0], self.get_properties()[1], self.get_properties()[2]))
+            return 0
         except:
             pass
 
         try:
             # From base
-            if (self.set_value(self.calculate_cuboid_volume_2(self.get_properties()[3], self.get_properties()[2]))):
-                return 1
+            self.set_value(self.calculate_cuboid_volume_2(self.get_properties()[3], self.get_properties()[2]))
+            return 1
         except:
             pass
 
@@ -145,6 +181,7 @@ class CuboidVolume(funClasses.Volume):
 # GLOBAL
 # List of available classes as types
 AVAIL_CLASSES = [
-    Line1,
+    Dividents,
+    Revenue,
     CuboidVolume
 ]

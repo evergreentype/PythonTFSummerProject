@@ -65,15 +65,28 @@ class PrimitiveMathObject(MathObject):
 
     # Implementation methods for value operations
     def set_value(self, val):
-        raise NotImplementedError(
-            "Must implement method set_value(self, *args)")
+        try:
+            self.validate_value(val)
+            self.__value = float(val)
+        except Exception as e:
+            raise e
 
     def get_value(self):
-        raise NotImplementedError("Must implement method get_value(self)")
+        """Return a single float value or None, if value is not set"""
+        try:
+            self.validate_value(self.__value)
+            return self.__value
+        except Exception as e:
+            raise e
 
     def validate_value(self, input):
-        raise NotImplementedError(
-            "Must implement method validate_value(self, input)")
+        try:
+            if (input != None and float(input) != None):
+                pass
+            else:
+                raise ValueError("No value passed")
+        except Exception as c:
+            raise c
 
 
 class Composite(MathObject):
@@ -156,27 +169,25 @@ class Length(PrimitiveMathObject):
 
     def set_value(self, val):
         """Accepts a single positive value"""
-
-        if (val == None):
-            return False
-
         try:
             self.validate_value(val)
             self.__value = float(val)
-            return True
         except Exception as e:
             raise e
 
     def get_value(self):
-        """Returns a single positive value or a negative -1, if value is not set"""
-        if (self.__value != None and self.__value >= 0):
+        """Return a single positive value or a negative -1, if value is not set"""
+        try:
+            self.validate_value(self.__value)
             return self.__value
-        else:
-            raise ValueError("Value not set")
+        except Exception as e:
+            raise e
 
     def validate_value(self, input):
         """Validate if input exists, is a float and has >= 0 value"""
         try:
+            PrimitiveMathObject.validate_value(self, input)
+
             if (float(input) >= 0):
                 pass
             else:
