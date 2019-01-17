@@ -37,25 +37,29 @@ def process_selection(xObject, force=False, level=1):
     # For a Composite object, print options
     print("-"*level + str(level) + "-"*(separatorConst - level))
     print(indent + "Find " + xObject.get_name() + ", " + xObject.get_symbol())
-    print(indent + "# Select an option:")
-    print(indent + "1: From value")
-    i = 2
 
-    for expression in xObject.get_expressions():
-        print(indent + "{:d}".format(i) + ": " + expression.name + ": " +
-              expression.expr_str.format(**(expression.get_symbolic())))
-        i += 1
+    usrInput = None
+    # Print selection options and make able to choose
+    if (len(xObject.get_expressions()) != 0):
+        print(indent + "# Select an option:")
+        print(indent + "1: From value")
+        i = 2
 
-    # Receive input
-    usrInput = -1
-    while usrInput not in range(1, i):
-        try:
-            usrInput = int(input(indent + "-> "))
-        except:
-            usrInput = -1
+        for expression in xObject.get_expressions():
+            print(indent + "{:d}".format(i) + ": " + expression.name + ": " +
+                  expression.expr_str.format(**(expression.get_symbolic())))
+            i += 1
 
-    # Input from value is selected
-    if (usrInput == 1):
+        # Receive input
+        usrInput = -1
+        while usrInput not in range(1, i):
+            try:
+                usrInput = int(input(indent + "-> "))
+            except:
+                usrInput = -1
+
+    # Input from value is selected, or selection is skipped
+    if (usrInput == None or usrInput == 1):
         # Force Composite object to receive a primitive
         process_selection(xObject, True, level)
     # Input by Expression is selected
