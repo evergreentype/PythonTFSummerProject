@@ -1,6 +1,7 @@
 """Module dedicated to accounting-related objects"""
 
 # IMPORTS
+from typing import List, Type
 import funClasses
 import mathematics_p
 from funClasses import DEFAULT_NEGATIVE_VALUE, DEFAULT_NAME
@@ -47,14 +48,14 @@ class Expenses(funClasses.CompositeMathObject, mathematics_p.Length):
 
 
 class NetIncome(funClasses.CompositeMathObject):
+    # Set defaults
+    __name = "Net income"
+    __symbol = "NI"
+    __unit = "$"
+
     def __init__(self):
         """Initialise Revenue and Expense objects and add them to properties"""
         funClasses.CompositeMathObject.__init__(self)
-
-        # Set defaults
-        self.set_name("Net income")
-        self.set_symbol("NI")
-        self.set_unit("$")
 
         # Add properties
         __revenues = Revenues()
@@ -252,7 +253,7 @@ class Assets(funClasses.CompositeMathObject):
 
 # GLOBAL
 # List of available classes as types
-AVAIL_CLASSES = [
+AVAIL_CLASSES: List[Type] = [
     NetIncome,
     RetainedEarnings,
     StockholdersEquity,

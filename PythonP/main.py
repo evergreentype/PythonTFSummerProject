@@ -1,50 +1,66 @@
 import copy
 import funClasses
-import rectangularFigures, accounting
-from funClasses import DEFAULT_FLOAT_FORMAT, DEFAULT_EXPRESSION_USED, DEFAULT_ERROR_STR
+import rectangularFigures
+from funClasses import Composite, CompositeMathObject, DEFAULT_FLOAT_FORMAT, DEFAULT_EXPRESSION_USED, DEFAULT_ERROR_STR, MathObject, PrimitiveMathObject
 
+from typing import cast
 
 # FUNCTIONS
-def process_selection(xObject, force=False, level=1):
+
+def process_primitive(xObject: MathObject, indent: str):
+    """If the object is a primitive (or forced), receive value as a primitive."""
+
+    # validation bool
+    valid = False
+    obj = cast(PrimitiveMathObject, xObject)
+
+    print(indent + "# " + obj.get_name() +
+            " (" + obj.get_unit() + "):")
+    while valid != True:
+        try:
+            # Receive input
+            valInput = input(indent + obj.get_symbol() + " = ")
+
+            float()
+            # Try to set it
+            obj.set_value(valInput)
+            valid = True
+        except Exception as e:
+            # Print exception string
+            print(indent + "^" + DEFAULT_ERROR_STR + str(e))
+
+
+def process_selection(xObject: MathObject, force: bool = False, level: int = 1):
     """Receive input from primitive or force Composite type to receive input (force = True), or iterate through properties to set values"""
 
     # Max number of "-" to print
     separatorConst = 8
+    # indentation string
+    indent = ' '*(level)
 
-    # Received value; validation bool; indentation string
-    valInput, valid, indent = None, False, ' '*(level)
-
-   # If the object is a primitive (or forced), receive value as a primitive
+    # MARK: Primitive or forced object
+    # If the object is a primitive (or forced), receive value as a primitive
     if ((isinstance(xObject, funClasses.Composite) == False) or (force == True)):
-        print(indent + "# " + xObject.get_name() +
-              " (" + xObject.get_unit() + "):")
-        while valid != True:
-            try:
-                # Receive input
-                valInput = input(indent + xObject.get_symbol() + " = ")
-
-                # Try to set it
-                xObject.set_value(valInput)
-                valid = True
-            except Exception as e:
-                # Print exception string
-                print(indent + "^" + DEFAULT_ERROR_STR + str(e))
+        process_primitive(xObject, indent)
 
         # End recursion
         return
 
+    # MARK: Composite object
+    obj = cast(Composite, xObject)
+    
     # For a Composite object, print options
     print("-"*level + str(level) + "-"*(separatorConst - level))
-    print(indent + "Find " + xObject.get_name() + ", " + xObject.get_symbol())
+    print(indent + "Find " + obj.get_name() + ", " + obj.get_symbol())
 
     usrInput = None
-    # Print selection options and make able to choose
-    if (len(xObject.get_expressions()) != 0):
+    # Print selection options and allow to choose
+    if (len(obj.get_expressions()) != 0):
         print(indent + "# Select an option:")
         print(indent + "1: From value")
         i = 2
 
-        for expression in xObject.get_expressions():
+        for expression in obj.get_expressions():
             print(indent + "{:d}".format(i) + ": " + expression.name + ": " +
                   expression.expr_str.format(**(expression.get_symbolic())))
             i += 1
@@ -60,18 +76,20 @@ def process_selection(xObject, force=False, level=1):
     # Input from value is selected, or selection is skipped
     if (usrInput == None or usrInput == 1):
         # Force Composite object to receive a primitive
-        process_selection(xObject, True, level)
+        process_selection(obj, True, level)
     # Input by Expression is selected
     else:
+        objCom = cast(CompositeMathObject, obj)
+
         # Iterate through the properties and set their values
-        for property in xObject.get_expressions()[usrInput-2].get_properties():
+        for property in objCom.get_expressions()[usrInput-2].get_properties():
             process_selection(property, False, level + 1)
 
         # Try to set the Composite value
-        expressionUsed = xObject.try_set_value()
+        expressionUsed = objCom.try_set_value()
 
         # Set what expression was used for calculating a composite value
-        xObject.set_expressionUsed(expressionUsed)
+        objCom.set_expressionUsed(expressionUsed)
 
     # Create a copy and fetch an answer
     # Reference: http://effbot.org/pyfaq/how-do-i-copy-an-object-in-python.htm
@@ -211,6 +229,8 @@ def main_menu(objTypes):
 
 # INVOKE MENU
 # Get classes from all modules
-all_available_classes = accounting.AVAIL_CLASSES # + rectangularFigures.AVAIL_CLASSES
+# + rectangularFigures.AVAIL_CLASSES
+all_available_classes = rectangularFigures.AVAIL_CLASSES
 
 main_menu(all_available_classes)
+
